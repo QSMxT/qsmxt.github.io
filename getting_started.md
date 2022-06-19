@@ -13,7 +13,7 @@ permalink: /getting-started
 
 # Getting started
 
-The simplest way to get started with QSMxT is to access it via the Applications menu in <a href="#" data-placement="top" data-toggle="popover" data-trigger="hover focus" data-content="An interactive analysis environment for Neuroimaging. Available <a href='https://neurodesktop.org/' target='_blank'>here</a>.">Neurodesktop</a>:
+The simplest way to get started with QSMxT is to access it via the Applications menu in <a href="https://neurodesk.org/" data-placement="top" data-toggle="popover" data-trigger="hover focus" data-content="An interactive analysis environment for Neuroimaging. Available <a href='https://neurodesk.org/' target='_blank'>here</a>.">Neurodesktop</a>:
 
 ![Neurodesktop applications menu with QSMxT](/images/neurodesktop-applications-menu.jpg)
 
