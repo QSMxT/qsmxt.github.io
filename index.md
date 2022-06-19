@@ -11,7 +11,7 @@
 
 ## What is QSM?
 
-Quantitative Susceptibility Mapping (QSM) is an emerging form of <a href="#" data-placement="top" data-toggle="popover" data-content="Quantitative MRI measures a single physical property and aims to be independent of scanner hardware or settings.">quantitative MRI</a> that aims to measure the magnetic susceptibility of objects imaged using a T2*-weighted acquisition. 
+<a href="#" data-placement="top" data-toggle="popover" data-content="See Deistung et al. 'Overview of Quantitative Susceptibility Mapping' (https://doi.org/10.1002/nbm.3569)">Quantitative Susceptibility Mapping</a> (QSM) is an emerging form of <a href="#" data-placement="top" data-toggle="popover" data-content="Quantitative MRI measures a physical property rather than a signal strength such that measured values are independent of scanner hardware or acquisition settings.">quantitative MRI</a> that aims to measure the <a href="#" data-placement="top" data-toggle="popover" data-content="Magnetic susceptibility (χ) is the degree to which an object can be magnetised by an external magnetic field.">magnetic susceptibility</a> of objects imaged using a 3D T2*-weighted acquisition such as 3D-GRE or 3D-EPI. 
 
 
 ## Heading
