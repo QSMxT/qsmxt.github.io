@@ -18,9 +18,35 @@ nav_order: 1
 
 ## What is QSMxT?
 
-QSMxT is a complete and end-to-end QSM processing and analysis pipeline that excels at automatically reconstructing, segmeneting and analysing QSM data across large groups of participants.
+QSMxT is an end-to-end QSM pipeline that excels at automatically reconstructing, segmenting and analysing QSM data across large groups of participants.
 
-QSMxT provides pipelines implemented in Python that:
+### What does QSMxT take as inputs?
+
+QSMxT processes data conforming to the Brain Imaging Data Structure (BIDS), and can automatically convert unorganised DICOM or NIfTI data.
+
+### What tasks does QSMxT help with?
+
+QSMxT aims to automate all tasks to include QSM in a study, from data preparation to exporting susceptibility values from anatomical regions of interest. 
+
+More specifically, QSMxT provides pipelines to automate the following tasks:
+
+ - Data conversion (DICOM/NIfTI to BIDS)
+ - QSM reconstruction (T2*w magnitude and phase)
+ - Segmentation (T1 and QSM)
+ - Template building (T2*w and QSM)
+ - Statistical data export to CSV
+
+### What algorithms does QSMxT use?
+
+#### Data conversion
+
+#### QSM reconstruction
+
+#### Segmentation
+
+#### Template building
+
+#### Statistical data export to CSV
 
 1. Automatically convert unorganised DICOM or NIfTI data to the Brain Imaging Data Structure (BIDS)
 2. Automatically reconstruct QSM, including steps for:
