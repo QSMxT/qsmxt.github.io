@@ -1,6 +1,10 @@
-layout: page
-title: "Getting started"
+---
+layout: default
+title: Getting started
+nav_order: 1
+has_children: false
 permalink: /getting-started
+---
 
 <head>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
