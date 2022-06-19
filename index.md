@@ -1,9 +1,6 @@
 ---
 layout: default
 title: QSMxT
-nav_order: 1
-permalink: /main
-nav_exclude: false
 ---
 
 <head>
