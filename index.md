@@ -2,8 +2,8 @@
 layout: default
 title: QSMxT
 nav_order: 1
-has_children: false
 permalink: /main
+nav_exclude: false
 ---
 
 <head>
