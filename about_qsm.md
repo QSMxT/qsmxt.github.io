@@ -2,6 +2,7 @@
 layout: default
 title: About QSM
 permalink: /about-qsm
+has_children: true
 nav_order: 3
 ---
 
