@@ -20,9 +20,13 @@ To run the QSM pipeline, data must first conform to the BIDS specification. Use 
 python3 /opt/QSMxT/run_2_qsm.py YOUR_BIDS_DIR qsm
 ```
 
-| Parameter                    | Description                                                                              |
-|:-----------------------------|:-----------------------------------------------------------------------------------------|
-| `--subject_pattern`          | Pattern used to match subject folders in `bids_dir` (default: `sub*`)                    |
+## Parameters
+
+ - `--subject_pattern`: Pattern used to match subject folders in `bids_dir` (default: `sub*`)
+ - `--subject_pattern`: ...
+
+
+
 | `--session_patttern`         | Pattern used to match session folders in subject folders in `bids_dir` (default: `ses*`) |
 | `--magnitude_pattern`        | Pattern to match magnitude files within the BIDS directory. The `{subject}`, `{session}` and `{run}` placeholders must be present.  (default: `{subject}/{session}/anat/*{run}*mag*nii*`) |
 | `--phase_pattern`            | ... |
