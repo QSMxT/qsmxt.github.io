@@ -2,7 +2,8 @@
 layout: default
 title: Getting started
 nav_order: 2
-permalink: /getting-started
+parent: Using QSMxT
+permalink: /using-qsmxt/getting-started
 ---
 
 <head>

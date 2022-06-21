@@ -18,7 +18,7 @@ The ideal acquisition for QSM largely depends on your application and imaging go
 
 **Acquisition type**: QSM reconstruction requires a T2*-weighted acquisition such as 3D-GRE. The T2* weighting is important because it provides sensitivity to susceptibility variations, which are necessary to derive magnetic susceptibility. Fast imaging techniques such as 3D-EPI and others are sometimes employed.
 
-**Coil combination**: A complex-domain coil combination method must be used for QSM, rather than the popular *sum of squares* technique. While *sum of squares* works well for magnitude images and may be used with some success for Susceptibility-Weighted Imaging (SWI), it can result in phase singularities that lead to an unreliable magnetic field estimation and *wormhole artefacts* in QSM that render your results unusable.
+**Coil combination**: A complex-domain coil combination method must be used for QSM, rather than the popular *sum of squares* technique. While *sum of squares* works well for magnitude images and may be used with some success for Susceptibility-Weighted Imaging (SWI), it can result in phase singularities that lead to an unresolvable magnetic field estimation and *wormhole artefacts* in QSM that render your results unusable.
 
 **Bipolar gradients**: ...
 

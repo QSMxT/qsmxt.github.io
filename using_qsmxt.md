@@ -1,8 +1,9 @@
 ---
 layout: default
-title: QSMxT's algorithms
-permalink: /algorithms
-nav_order: 4
+title: Using QSMxT
+permalink: /using-qsmxt
+has_children: true
+nav_order: 2
 ---
 
 <head>
