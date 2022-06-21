@@ -14,25 +14,31 @@ permalink: /using-qsmxt/installation
 
 # Installation
 
-## Quick-start via Neurodesktop
+## Quick-start via Neurodesktop (Windows, MacOS and Linux)
 
-QSMxT comes bundled with <a href="https://neurodesk.org/" target="_blank" data-placement="top" data-toggle="popover" data-trigger="hover focus" data-content="An interactive analysis environment for Neuroimaging. Click to navigate.">Neurodesktop</a>, which runs on Windows, MacOS, and Linux. We recommend this method for most users. 
+QSMxT is bundled with <a href="https://neurodesk.org/" target="_blank" data-placement="top" data-toggle="popover" data-trigger="hover focus" data-content="An interactive analysis environment for Neuroimaging. Click to navigate.">Neurodesktop</a>, which runs on Windows, MacOS, and Linux. We recommend this method for most users. 
 
 Once Neurodesktop is installed an open, QSMxT can be accessed simply through the Applications menu:
 
 ![Neurodesktop applications menu with QSMxT](/images/neurodesktop-applications-menu.jpg)
 
-## Docker container
+## Docker container (Windows, MacOS and Linux)
 
-Alternatively, if you do not wish to use Neurodesk, you can use QSMxT via the Docker container, which is also compatible with Windows, MacOS and Linux:
+If you do not wish to use Neurodesk, you can run QSMxT via a Docker container, which is also compatible with Windows, MacOS and Linux. You will first need to install Docker, before running the following command:
 
- 1. Install Docker
- 2. Run the command:
+### Windows users
+
  ```bash
- ...
+docker run -it -v ~/neurodesktop-storage:/neurodesktop-storage vnmd/qsmxt_1.1.11:20220526
  ```
 
-## Linux and High-Performance Computers (HPCs)
+ ### MacOS and Linux users
+
+ ```bash
+docker run -it -v C:/neurodesktop-storage:/neurodesktop-storage vnmd/qsmxt_1.1.11:20220526
+ ```
+
+## Transparent Singularity (Linux and HPCs)
 
 Linux users can run QSMxT through Neurodesktop or the Docker container described above. However, an alternatie installation for Linux that also supports HPCs is described in this section.
 
