@@ -14,7 +14,7 @@ nav_order: 4
 
 # Acquiring data for QSM
 
-The ideal acquisition for QSM largely depends on your application and imaging goals. However, we provide some general guidelines for QSM acquisition below with some of the important details. 
+The ideal acquisition for QSM largely depends on your application, imaging goals and constraints. However, we provide some general guidelines for QSM acquisition below with some of the important details. 
 
 **Acquisition type**: QSM reconstruction requires a T2*-weighted acquisition such as 3D-GRE. The T2* weighting is important because it provides sensitivity to susceptibility variations, which are necessary to derive magnetic susceptibility. Fast imaging techniques such as 3D-EPI and others are sometimes employed.
 
