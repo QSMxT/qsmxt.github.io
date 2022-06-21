@@ -1,6 +1,7 @@
 ---
 layout: default
 title: QSMxT's algorithms
+permalink: /algorithms
 nav_order: 5
 ---
 

@@ -1,6 +1,7 @@
 ---
 layout: default
 title: Acquiring data
+permalink: /about-qsm/acquiring-data
 nav_order: 4
 ---
 
