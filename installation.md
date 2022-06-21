@@ -44,30 +44,36 @@ Linux users can run QSMxT through Neurodesktop or the Docker container described
 
 A singularity container is provided for Linux and HPC use, which coupled with the transparent singularity software provided by the Neurodesk project allows each of the dependencies to be invoked <a href="https://neurodesk.org/" target="_blank" data-placement="top" data-toggle="popover" data-trigger="hover focus" data-content="As though they were installed natively.">transparently</a>. Transparent singularity allows QSMxT to be run directly within the host OS's environment. This mode of execution is necessary for parallel execution via PBS.
 
-    Install singularity
+Install singularity
 
-    Install the QSMxT container via transparent singularity:
+Install the QSMxT container via transparent singularity:
 
-    git clone https://github.com/NeuroDesk/transparent-singularity qsmxt_1.1.11_20220526
-    cd qsmxt_1.1.11_20220526
-    ./run_transparent_singularity.sh --container qsmxt_1.1.11_20220526.simg
-    source activate_qsmxt_1.1.11_20220526.simg.sh
+```bash
+git clone https://github.com/NeuroDesk/transparent-singularity qsmxt_1.1.11_20220526
+cd qsmxt_1.1.11_20220526
+./run_transparent_singularity.sh --container qsmxt_1.1.11_20220526.simg
+source activate_qsmxt_1.1.11_20220526.simg.sh
+```
 
-    Clone the QSMxT repository:
+Clone the QSMxT repository:
 
-    git clone https://github.com/QSMxT/QSMxT.git
+```bash
+git clone https://github.com/QSMxT/QSMxT.git
+```
 
-    Install miniconda with nipype:
+Install miniconda with nipype:
 
-    wget https://repo.anaconda.com/miniconda/Miniconda3-4.7.12.1-Linux-x86_64.sh	
-    bash Miniconda3-4.7.12.1-Linux-x86_64.sh -b
-    source ~/.bashrc
-    conda create -n qsmxt python=3.6
-    conda activate qsmxt
-    conda install -c conda-forge nipype=1.6.0 scipy=1.8.0
-    pip install bidscoin
+```bash
+wget https://repo.anaconda.com/miniconda/Miniconda3-4.7.12.1-Linux-x86_64.sh	
+bash Miniconda3-4.7.12.1-Linux-x86_64.sh -b
+source ~/.bashrc
+conda create -n qsmxt python=3.6
+conda activate qsmxt
+conda install -c conda-forge nipype=1.6.0 scipy=1.8.0
+pip install bidscoin
+```
 
-    Invoke QSMxT python scripts directly (see QSMxT Usage above). Use the --pbs flag with your account string to run on an HPC supporting PBS.
+Invoke QSMxT python scripts directly (see QSMxT Usage above). Use the --pbs flag with your account string to run on an HPC supporting PBS.
 
 
 ## Bare metal installation
