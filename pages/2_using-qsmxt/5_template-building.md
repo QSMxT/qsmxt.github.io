@@ -14,13 +14,22 @@ permalink: /using-qsmxt/template-building
 
 # Template building
 
-To run the template building pipeline, data must first conform to the BIDS specification (see [data preparation](/using-qsmxt/data-preparation)). Further, QSM reconstruction must be complete (see [QSM reconstruction](/using-qsmxt/qsm-reconstruction)).
+## Why use this pipeline?
 
-**NOTE**: Template-building only performs well if you have a large number of subjects (20+) in your dataset.
+This step is useful if:
 
-This pipeline will apply a minimum deformation averaging algorithm against the T2\*-weighted magnitude images to construct a group space for the study. This will bring all T2\*-weighted images into the same space and generate an average of all images, called a *template*. The same transformations will be applied to QSM results to bring them into the group space and an equivalent QSM template will also be generated. Finally, QSMxT will also output all ANTs transformations as text files. This is useful if you wish to manually draw segmentations to apply across all subjects as part of a quantitative analysis of specific anatomical regions that are not covered by the segmentation pipeline. The transformations are also useful if you wish to derive multiple group templates using the transformations to compare a control group with a disease group, for example.
+ - You have 20+ subjects in your cohort
+ - You wish to manually draw segmentations that can easily be applied to all subjects for quantitative analysis, separately from the subject-specific segmentations produced by the [segmentation pipeline](/using-qsmxt/segmentation)
+ - You wish to segment data but do not have T1-weighted images available
+ - You wish to generate average QSM or T2\*-weighted magnitude images for your cohort
 
-Use the following command to initiate the template building pipeline (replacing `YOUR_BIDS_DIR` with your BIDS directory, `YOUR_QSM_DIR` with the QSM output directory, and `template` with your preferred output directory for template building results):
+## What does this pipeline do?
+
+This pipeline will apply a minimum deformation averaging algorithm against T2\*-weighted magnitude images to construct a group space for the study. This will bring all T2\*-weighted images into the same space and generate an average of all images, called a *template*. The same transformations will be applied to QSM results to bring them into the group space and an equivalent QSM template will be generated. Finally, QSMxT will output all ANTs transformations as text files.
+
+## Running the pipeline
+
+Use the following command to initiate the template building pipeline (replacing `YOUR_BIDS_DIR` with your BIDS directory, `YOUR_QSM_DIR` with the QSM output directory, and `template` with your preferred output directory for template building results). Please note that a large number of subjects is required for this step to work effectively (20+ subjects).
 
 ```bash
 python3 /opt/QSMxT/run_4_template.py YOUR_BIDS_DIR YOUR_QSM_DIR template

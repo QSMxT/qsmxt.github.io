@@ -12,7 +12,7 @@ permalink: /using-qsmxt/segmentation
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 
-# Segmentation
+# T1/QSM Segmentation
 
 To run the segmentation pipeline, data must first conform to the BIDS specification (see [data preparation](/using-qsmxt/data-preparation)). Further, QSM reconstruction must be complete (see [QSM reconstruction](/using-qsmxt/qsm-reconstruction)).
 
