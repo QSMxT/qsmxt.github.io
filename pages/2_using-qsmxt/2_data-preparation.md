@@ -32,13 +32,13 @@ If your DICOM data is sorted within subject, session and series folders, you can
 python3 /opt/QSMxT/run_1_dicomConvert.py SORTED_DICOM_DIR bids
 ```
 
-Since DICOM headers do not describe parameter weighting (e.g. T1, T2*, etc), QSMxT will try to identify the weighting based on the `ProtocolName` DICOM field. Images with a `ProtocolName` matching any of `[*qsm*, *gre*, *epi*]` will be considered T2*-weighted, and those matching `[*t1w*]` will be considered T1-weighted. Alternate `ProtocolName` patterns can be specified using command-line arguments (see `run_1_dicomConvert.py --help`).
+Since DICOM headers do not describe parameter weighting (e.g. T1, T2\*, etc), QSMxT will try to identify the weighting based on the `ProtocolName` DICOM field. Images with a `ProtocolName` matching any of `[*qsm*, *gre*, *epi*]` will be considered T2\*-weighted, and those matching `[*t1w*]` will be considered T1-weighted. Alternate `ProtocolName` patterns can be specified using command-line arguments (see `run_1_dicomConvert.py --help`).
 
 In addition to the weighting, QSMxT will also attempt to identify run numbers based on the order of the `SeriesNumber` field, echo numbers based on the `EchoTime` field, and whether a series represents magnitude or phase data based on the `ImageType` field.
 
 ## I have NIfTI files
 
-NIfTI files store insufficient information in their header to convert to BIDS. However, for QSM, we only need the image weighting (T2*-weighted or T1-weighted), field strength, run numbers, echo numbers, echo times, and image types (magnitude or phase). If your NIfTI data contains some of this information in the file path or an adjacent JSON header, the `run_1_niftiConvert.py` script will attempt to extract this information using customisable match patterns and regular expresions. Use the following command to convert NIfTI to BIDS:
+NIfTI files store insufficient information in their header to convert to BIDS. However, for QSM, we only need the image weighting (T2\*-weighted or T1-weighted), field strength, run numbers, echo numbers, echo times, and image types (magnitude or phase). If your NIfTI data contains some of this information in the file path or an adjacent JSON header, the `run_1_niftiConvert.py` script will attempt to extract this information using customisable match patterns and regular expresions. Use the following command to convert NIfTI to BIDS:
 
 ```bash
 python3 /opt/QSMxT/run_1_niftiConvert.py YOUR_NIFTI_DIR bids
