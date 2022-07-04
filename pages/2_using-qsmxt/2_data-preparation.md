@@ -34,17 +34,17 @@ python3 /opt/QSMxT/run_1_dicomConvert.py SORTED_DICOM_DIR bids
 
 Since DICOM headers do not describe parameter weighting (e.g. T1, T2\*, etc), QSMxT will try to identify the weighting based on the `ProtocolName` DICOM field. Images with a `ProtocolName` matching any of `[*qsm*, *gre*, *epi*]` will be considered T2\*-weighted, and those matching `[*t1w*]` will be considered T1-weighted. Alternate `ProtocolName` patterns can be specified using command-line arguments (see `run_1_dicomConvert.py --help`).
 
-In addition to the weighting, QSMxT will also attempt to identify run numbers based on the order of the `SeriesNumber` field, echo numbers based on the `EchoTime` field, and whether a series represents magnitude or phase data based on the `ImageType` field.
+In addition to the weighting, QSMxT will also attempt to identify run numbers based on the order of the `SeriesNumber` field, echo numbers based on chronology of the `EchoTime` fields, and whether a series represents phase or magnitude data based on whether the `ImageType` field contains a `'P'` entry.
 
 ## I have NIfTI files
 
-Unfortunately, NIfTI files store insufficient information in their header for a complete conversion to BIDS. However, for QSMxT, we only need the image weighting (T2\*-weighted or T1-weighted), field strength, run numbers, echo numbers, echo times, and image types (magnitude or phase). If your NIfTI data contains some of this information in the file path or in an adjacent JSON header, the `run_1_niftiConvert.py` script will automatically attempt to extract this information using customisable match patterns and regular expresions. If this information is unavailable, you can provide it yourself at the next step. Use the following command to start the conversion from NIfTI:
+NIfTI files store insufficient information in their header for a complete conversion to BIDS. However, for QSMxT, we only need the image weighting (T2\*-weighted or T1-weighted), field strength, run numbers, echo numbers, echo times, and image types (magnitude or phase). If your NIfTI data contains some of this information in the file path or in an adjacent JSON header, the `run_1_niftiConvert.py` script will automatically attempt to extract this information using customisable match patterns and regular expresions. Use the following command to start the conversion from NIfTI:
 
 ```bash
 python3 /opt/QSMxT/run_1_niftiConvert.py YOUR_NIFTI_DIR bids
 ```
 
-If any information is missing for the conversion to take place, a spreadsheet (CSV file) will be written for you to enter the information. You can use a spreadsheet editor such as Microsoft Excel or LibreOffice Calc to do this. Then, run the same command again and the conversion should complete. Alternatively, you can customise the match patterns and regular expressions to improve the information extraction (see `run_1_niftiConvert.py --help` for details).
+If any information is missing for the conversion to take place, a spreadsheet (CSV file) will be written for you to provide it. You can use a spreadsheet editor such as Microsoft Excel or LibreOffice Calc to do this. Then, run the same command again and the conversion should complete. Alternatively, you can customise the match patterns and regular expressions to improve the extraction of information (see `run_1_niftiConvert.py --help` for details).
 
 <script>
 $(document).ready(function(){

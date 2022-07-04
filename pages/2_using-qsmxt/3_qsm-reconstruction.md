@@ -14,7 +14,9 @@ permalink: /using-qsmxt/qsm-reconstruction
 
 # QSM Reconstruction
 
-To run the QSM pipeline, data must first conform to the BIDS specification. Use the following command to initiate the QSM pipeline:
+To run the QSM pipeline, data must first conform to the BIDS specification (see [data preparation](/using-qsmxt/data-preparation)). 
+
+Use the following command to initiate the QSM pipeline:
 
 ```bash
 python3 /opt/QSMxT/run_2_qsm.py YOUR_BIDS_DIR qsm
@@ -24,7 +26,7 @@ For details about the underlying algorithm used in the reconstruction, see [QSMx
 
 ## Parameter information
 
-Under construction.
+Several parameters can be customised for the reconstruction (see `python3 /opt/QSMxT/run_2_qsm.py --help`).
 
 <script>
 $(document).ready(function(){
