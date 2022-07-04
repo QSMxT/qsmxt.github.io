@@ -2,7 +2,7 @@
 layout: default
 title: Data acquisition
 permalink: /data-acquisition
-nav_order: 3
+nav_order: 2
 ---
 
 <head>
