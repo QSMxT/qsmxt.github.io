@@ -14,7 +14,7 @@ permalink: /using-qsmxt/data-preparation
 
 # Data preparation
 
-QSMxT requires BIDS-organised data. If your data is not prepared according to the BIDS specification, several tools are provided by QSMxT for you to do this automatically depending on your available data.
+QSMxT requires <a href="https://bids.neuroimaging.io/" target="_blank" data-placement="top" data-toggle="popover" data-trigger="hover focus" data-content="Click to read about BIDS at https://bids.neuroimaging.io/.">BIDS</a>-organised data. If your data is not prepared according to the BIDS specification, several tools are provided by QSMxT for you to do this automatically depending on your available data.
 
 ## I have unsorted DICOMs
 
