@@ -32,15 +32,19 @@ QSMxT aims to automate all tasks to include QSM in a study, from data preparatio
  - Template building (requires T2*-weighted magnitude and QSM images)
  - Statistical data export to CSV (requires segmented QSM images)
 
+## How do I cite QSMxT?
+
+Please cite our paper:
+
+Stewart AW, Robinson SD, O’Brien K, Jin J, Widhalm G, Hangel G, Walls A, Goodwin J, Eckstein K, Tourell M, Morgan C. "QSMxT: Robust masking and artifact reduction for quantitative susceptibility mapping". *Magnetic resonance in medicine* 87.3 (2022): 1289-1300. https://doi.org/10.1002/mrm.29048
+
+In addition, since each processing step automated by QSMxT uses a range of underlying technologies and software, we provide a `details_and_citations.txt` file in the output directory which lists citations for the methods used. These citations adapt depending on your input data and the parameters you have passed to the pipeline, such that only the methods that were actually used are included in the citations.
+
 ## How does QSMxT work?
 
 QSMxT bundles a wide range of dependencies for QSM processing using software containerisation technology, making it extremely <a href="#" data-placement="top" data-toggle="popover" data-trigger="hover focus" data-content="Easy to access and install on your available hardware.">deployable</a> and <a href="#" data-placement="top" data-toggle="popover" data-trigger="hover focus" data-content="Producing the same results irrespective of computational environment, including hardware and software.">computationally reproducible</a>. The wide variety of dependencies that QSMxT uses can otherwise be challenging to install in a reproducible way, especially for non-developers and non-Linux users.
 
 The <a href="https://nipype.readthedocs.io/en/latest/" data-placement="top" data-toggle="popover" data-trigger="hover focus" target="_blank" data-content="Click to read more at nipype.readthedocs.io">nipype</a> package is used to automate QSMxT's processing and make it scalable. Nipype is a workflow engine that can interact with a wide range of neuroimaging software, and provides straightforward scalability across jobs using an asynchronous directed graph data structure. This makes the automated processing of large datasets feasible, especially with high-performance computing systems (HPCs).
-
-## What algorithms does QSMxT use?
-
-The algorithms used by QSMxT are detailed on the <a href="/algorithms">algorithms</a> page. 
 
 ## How did you choose the algorithms for QSMxT?
 
