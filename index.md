@@ -12,7 +12,7 @@ nav_order: 1
 
 # QSMxT: Automated and Scalable QSM
 
-QSMxT is an automated pipeline that excels at reconstructing, segmenting and analysing [QSM](/about_qsm) data across large groups of participants.
+QSMxT is an automated pipeline that excels at reconstructing, segmenting and analysing <a href="/about-qsm" data-placement="top" data-toggle="popover" data-trigger="hover focus" data-content="Read more at /about-qsm">QSM</a> data across large groups of participants.
 
 ## What does QSMxT take as inputs?
 
