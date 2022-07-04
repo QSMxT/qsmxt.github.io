@@ -14,9 +14,19 @@ permalink: /using-qsmxt/segmentation
 
 # T1/QSM Segmentation
 
-To run the segmentation pipeline, data must first conform to the BIDS specification (see [data preparation](/using-qsmxt/data-preparation)). Further, QSM reconstruction must be complete (see [QSM reconstruction](/using-qsmxt/qsm-reconstruction)).
+## Why use this pipeline?
 
-This pipeline will segment T1-weighted images before registering them to the T2\*-weighted space (the same space as QSM results). Segmentation is performed using FastSurfer running using CPU processing. Registration is performed using ``. 
+This pipeline is useful if:
+
+ - You have T1-weighted images and QSM results available
+ - You wish to automatically segment your T1-weighted and QSM images
+ - You wish to perform a quantitative analysis of your QSM results in anatomical regions of interest
+
+## What does this pipeline do?
+
+This pipeline will segment T1-weighted images using before registering them to the T2\*-weighted space (the same space as QSM results). Segmentation is performed using FastSurfer with CPU processing. Registration is performed using ANTs via the `` script.
+
+## Running the pipeline
 
 Use the following command to initiate the segmentation pipeline (replacing `YOUR_BIDS_DIR` with your BIDS directory, `YOUR_QSM_DIR` with the QSM output directory, and `segmentations` with your preferred output directory for segmentation results):
 

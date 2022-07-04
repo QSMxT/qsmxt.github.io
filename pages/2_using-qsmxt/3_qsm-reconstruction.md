@@ -14,7 +14,7 @@ permalink: /using-qsmxt/qsm-reconstruction
 
 # QSM Reconstruction
 
-To run the QSM pipeline, data must first conform to the BIDS specification (see [data preparation](/using-qsmxt/data-preparation)). 
+To run the QSM pipeline, data must first conform to the BIDS specification (see [data preparation](/using-qsmxt/data-preparation)). Each subject must have correctly combined T2\*-weighted phase images available.
 
 Use the following command to initiate the QSM pipeline:
 
