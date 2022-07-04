@@ -38,7 +38,7 @@ In addition to the weighting, QSMxT will also attempt to identify run numbers ba
 
 ## I have NIfTI files
 
-NIfTI files store insufficient information in their header to convert to BIDS. However, for QSM, we only need the image weighting (T2\*-weighted or T1-weighted), field strength, run numbers, echo numbers, echo times, and image types (magnitude or phase). If your NIfTI data contains some of this information in the file path or an adjacent JSON header, the `run_1_niftiConvert.py` script will attempt to extract this information using customisable match patterns and regular expresions. Use the following command to convert NIfTI to BIDS:
+Unfortunately, NIfTI files store insufficient information in their header for a complete conversion to BIDS. However, for QSMxT, we only need the image weighting (T2\*-weighted or T1-weighted), field strength, run numbers, echo numbers, echo times, and image types (magnitude or phase). If your NIfTI data contains some of this information in the file path or in an adjacent JSON header, the `run_1_niftiConvert.py` script will automatically attempt to extract this information using customisable match patterns and regular expresions. If this information is unavailable, you can provide it yourself at the next step. Use the following command to start the conversion from NIfTI:
 
 ```bash
 python3 /opt/QSMxT/run_1_niftiConvert.py YOUR_NIFTI_DIR bids
