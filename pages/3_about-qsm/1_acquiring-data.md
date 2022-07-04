@@ -3,7 +3,7 @@ layout: default
 title: Acquiring data
 parent: About QSM
 permalink: /about-qsm/acquiring-data
-nav_order: 4
+nav_order: 1
 ---
 
 <head>

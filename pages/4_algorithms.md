@@ -25,9 +25,13 @@ If only NIfTI data is available, the `run_1_niftiConvert.py` script can be used 
 
 ## QSM reconstruction
 
-The `run_2_qsm.py` script will execute the QSM reconstruction pipeline against BIDS-organised data. This script applies the TGV-QSM algorithm with its Python implementation `tgv_qsm`, among other steps. TGV-QSM combines a Laplacian-based phase unwrapping and background field removal and an iterative TGV-regularisation to reconstruct QSM.
+QSMxT applies a <a href="https://doi.org/10.1002/mrm.29048" data-placement="top" data-toggle="popover" data-trigger="hover focus" data-content="See Stewart et al. 'QSMxT: Robust Masking and artifact reduction for quantitative susceptibility mapping'. Click to navigate.</a>">two-pass inversion</a> and multi-echo combination in conjunction with the TGV-QSM algorithm. TGV-QSM applies Laplacian phase unwrapping, V-SHARP background field removal, and a TGV-regularised dipole inversion as a combined optimisation problem.
 
-For brain masking, `run_2_qsm.py` uses a magnitude-based threshold with a hole-filling algorithm, and two-pass combination to reduce artefacts by default. A range of settings are exposed for you to customise the masking threshold or use alternate masking and combination schemes (such as BET). While BET is the de facto standard for QSM masking, we do not apply BET by default so that QSMxT may be applied to other QSM applications such as body imaging. Further, our published results indicate that magnitude-based thresholding and a two-pass inversion significantly reduces streaking artefacts near strong susceptibility sources and improves quantitative accuracy in simulated data. 
+Customisations:
+
+ - The two-pass combination can be disabled using the `--single_pass` flag. This will halve reconstruction time.
+ - The masking scheme can be changed to be phase-based or to use BET using the `--masking` parameter.
+ - Other parameters are exposed to further control the masking and reconstruction operations (see `--help`).
 
 ## Segmentation
 
