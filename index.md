@@ -12,7 +12,7 @@ nav_order: 1
 
 # QSMxT: Automated and Scalable QSM
 
-QSMxT is an *end-to-end* pipeline that automates the reconstruction, segmentation and analysis of <a href="/about-qsm" data-placement="top" data-toggle="popover" data-trigger="hover focus" data-content="What is QSM? Click to read more at /about-qsm">QSM</a> data across large groups of participants, from scanner images (DICOMs) through to susceptibility maps and quantitative outputs.
+QSMxT is an *end-to-end* pipeline that automates the reconstruction, segmentation and analysis of QSM data across large groups of participants, from scanner images (DICOMs) through to susceptibility maps and quantitative outputs.
 
 ## What is QSM?
 
