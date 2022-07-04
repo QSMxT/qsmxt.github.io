@@ -1,9 +1,8 @@
 ---
 layout: default
-title: Acquiring data
-parent: About QSM
-permalink: /about-qsm/acquiring-data
-nav_order: 1
+title: Data acquisition
+permalink: /data-acquisition
+nav_order: 3
 ---
 
 <head>

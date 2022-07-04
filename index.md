@@ -14,6 +14,10 @@ nav_order: 1
 
 QSMxT is an automated pipeline that excels at reconstructing, segmenting and analysing <a href="/about-qsm" data-placement="top" data-toggle="popover" data-trigger="hover focus" data-content="What is QSM? Click to read more at /about-qsm">QSM</a> data across large groups of participants.
 
+## What is QSM?
+
+<a href="#" data-placement="top" data-toggle="popover" data-trigger="hover focus" data-content="See <a href='https://doi.org/10.1002/nbm.3569' target='_blank'>Deistung et al.</a> Overview of Quantitative Susceptibility Mapping'</a>">Quantitative Susceptibility Mapping</a> (QSM) is an emerging form of <a href="#" data-placement="top" data-toggle="popover" data-trigger="hover focus" data-content="Quantitative MRI measures a physical property rather than a signal strength such that measured values are independent of scanner hardware or acquisition settings.">quantitative MRI</a> that aims to measure the <a href="#" data-placement="top" data-trigger="hover focus" data-toggle="popover" data-content="Magnetic susceptibility (χ) is the degree to which an object can be magnetised by an external magnetic field.">magnetic susceptibility</a> of objects. Susceptibility maps are derived by post-processing the phase component of the complex MRI signal from a T2*-weighted acquisition such as 3D gradient-echo (3D-GRE) or 3D echo planar imaging (3D-EPI). QSM has <a href="#" data-placement="top" data-toggle="popover" data-trigger="hover focus" data-content="See <a href='https://doi.org/10.1002/nbm.3569' target='_blank'>Deistung et al.</a> Overview of Quantitative Susceptibility Mapping'</a>">many applications</a>, mostly in human brain imaging of conditions such as traumatic brain injuries, neuroinflammatory and neurodegenerative diseases, ageing, tumours, with emerging applications across the human body and in animals.
+
 ## What does QSMxT take as inputs?
 
 QSMxT processes data conforming to the Brain Imaging Data Structure (BIDS), and can automatically convert unorganised DICOM or NIfTI data to this format.
