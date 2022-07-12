@@ -20,7 +20,7 @@ QSMxT is an *end-to-end* pipeline that automates the reconstruction, segmentatio
 
 ## What does QSMxT do?
 
-QSMxT aims to automate all tasks to include QSM in a study from data preparation and conversion to exporting susceptibility values across anatomical regions of interest. More specifically, QSMxT provides pipelines to automate the following tasks:
+QSMxT automates all tasks to include QSM in a study from data preparation and conversion to exporting susceptibility values across anatomical regions of interest. More specifically, QSMxT provides pipelines to automate the following tasks:
 
  - Data conversion (DICOM/NIfTI to <a href="https://bids.neuroimaging.io/" target="_blank" data-placement="top" data-toggle="popover" data-trigger="hover focus" data-content="Click to read about BIDS at bids.neuroimaging.io.">Brain Imaging Data Structure (BIDS)</a>)
  - QSM reconstruction (requires T2*-weighted magnitude and phase images)
@@ -53,7 +53,7 @@ A huge number of QSM algorithms have been proposed in recent years, and each hav
  - Algorithms and implementations must not require proprietary licensing (e.g. MATLAB)
  - Algorithms and implementations must not rely on priors for specific applications such as brain imaging or healthy subjects only
 
-With these priorities in mind, we see QSMxT as an important software suite that lowers the barrier-to-entry for QSM users and enables large-scale clinical studies. Support for pipelines like this is crucial to advance the method and ultimately pave the way towards clinical integration.
+With these priorities in mind, we see QSMxT as an important software suite that lowers the barrier-to-entry for QSM users and enables large-scale clinical studies. This is crucial to advance the method and ultimately pave the way towards clinical integration of QSM.
 
 <script>
 $(document).ready(function(){
