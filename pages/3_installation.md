@@ -13,17 +13,17 @@ permalink: /installation
 
 # Installation
 
-## Quick-start via Neurodesktop (Windows, MacOS and Linux)
+## Quick-start via Neurodesk (Windows, MacOS and Linux)
 
-QSMxT is bundled with <a href="https://neurodesk.org/" target="_blank" data-placement="top" data-toggle="popover" data-trigger="hover focus" data-content="An interactive analysis environment for Neuroimaging. Click to navigate.">Neurodesktop</a>, which runs on Windows, MacOS, and Linux. We recommend this method for most users. 
+QSMxT is bundled with <a href="https://neurodesk.org/" target="_blank" data-placement="top" data-toggle="popover" data-trigger="hover focus" data-content="An interactive analysis environment for Neuroimaging. Click to navigate.">Neurodesk</a>, which runs on Windows, MacOS, and Linux. We recommend this method for most users. 
 
-Once Neurodesktop is installed an open, QSMxT can be accessed simply through the Applications menu:
+Once Neurodesktop is installed an open, QSMxT can be accessed through the Applications menu:
 
 ![Neurodesktop applications menu with QSMxT](/images/neurodesktop-applications-menu.jpg)
 
 ## Docker container (Windows, MacOS and Linux)
 
-If you do not wish to use Neurodesk, you can run QSMxT via a Docker container, which is also compatible with Windows, MacOS and Linux. You will first need to install Docker, before running the following command:
+You can run QSMxT via a Docker container, which is also compatible with Windows, MacOS and Linux. You will first need to install Docker, before running the following command:
 
 ### Windows users
 
@@ -31,7 +31,7 @@ If you do not wish to use Neurodesk, you can run QSMxT via a Docker container, w
 docker run -it -v ~/neurodesktop-storage:/neurodesktop-storage vnmd/qsmxt_1.1.11:20220526
  ```
 
- ### MacOS and Linux users
+### MacOS and Linux users
 
  ```bash
 docker run -it -v C:/neurodesktop-storage:/neurodesktop-storage vnmd/qsmxt_1.1.11:20220526
@@ -39,40 +39,40 @@ docker run -it -v C:/neurodesktop-storage:/neurodesktop-storage vnmd/qsmxt_1.1.1
 
 ## Transparent Singularity (Linux and HPCs)
 
-Linux users can run QSMxT through Neurodesktop or the Docker container described above. However, an alternatie installation for Linux that also supports HPCs is described in this section.
+An alternative installation for Linux users that also supports HPCs is described in this section.
 
-A singularity container is provided for Linux and HPC use, which coupled with the transparent singularity software provided by the Neurodesk project allows each of the dependencies to be invoked <a href="https://neurodesk.org/" target="_blank" data-placement="top" data-toggle="popover" data-trigger="hover focus" data-content="As though they were installed natively.">transparently</a>. Transparent singularity allows QSMxT to be run directly within the host OS's environment. This mode of execution is necessary for parallel execution via PBS.
+A singularity container is provided for Linux and HPC use, which coupled with the transparent singularity software provided by the Neurodesk project, allows QSMxT and its dependencies to be invoked <a href="https://neurodesk.org/" target="_blank" data-placement="top" data-toggle="popover" data-trigger="hover focus" data-content="Outside of the container's environment; as though QSMxT and its dependencies were installed natively.">transparently</a>. This mode of execution is necessary for parallel execution via PBS.
 
-Install singularity
+1. Install singularity
 
-Install the QSMxT container via transparent singularity:
+2. Install the QSMxT container via transparent singularity:
 
-```bash
-git clone https://github.com/NeuroDesk/transparent-singularity qsmxt_1.1.11_20220526
-cd qsmxt_1.1.11_20220526
-./run_transparent_singularity.sh --container qsmxt_1.1.11_20220526.simg
-source activate_qsmxt_1.1.11_20220526.simg.sh
-```
+  ```bash
+  git clone https://github.com/NeuroDesk/transparent-singularity qsmxt_1.1.11_20220526
+  cd qsmxt_1.1.11_20220526
+  ./run_transparent_singularity.sh --container qsmxt_1.1.11_20220526.simg
+  source activate_qsmxt_1.1.11_20220526.simg.sh
+  ```
 
-Clone the QSMxT repository:
+3. Clone the QSMxT repository:
 
-```bash
-git clone https://github.com/QSMxT/QSMxT.git
-```
+  ```bash
+  git clone https://github.com/QSMxT/QSMxT.git
+  ```
 
-Install miniconda with nipype:
+4. Install miniconda with nipype:
 
-```bash
-wget https://repo.anaconda.com/miniconda/Miniconda3-4.7.12.1-Linux-x86_64.sh	
-bash Miniconda3-4.7.12.1-Linux-x86_64.sh -b
-source ~/.bashrc
-conda create -n qsmxt python=3.6
-conda activate qsmxt
-conda install -c conda-forge nipype=1.6.0 scipy=1.8.0
-pip install bidscoin
-```
+  ```bash
+  wget https://repo.anaconda.com/miniconda/Miniconda3-4.7.12.1-Linux-x86_64.sh	
+  bash Miniconda3-4.7.12.1-Linux-x86_64.sh -b
+  source ~/.bashrc
+  conda create -n qsmxt python=3.6
+  conda activate qsmxt
+  conda install -c conda-forge nipype=1.6.0 scipy=1.8.0
+  pip install bidscoin
+  ```
 
-Invoke QSMxT python scripts directly (see QSMxT Usage above). Use the --pbs flag with your account string to run on an HPC supporting PBS.
+5. Invoke QSMxT python scripts directly (see [QSMxT Usage](/using-qsmxt)). Use the `--pbs` flag with your account string to run on an HPC supporting PBS.
 
 
 ## Bare metal installation
