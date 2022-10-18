@@ -23,6 +23,11 @@ To convert to BIDS, your DICOM data must at least be sorted within subject, sess
 ```bash
 python3 /opt/QSMxT/run_0_dicomSort.py YOUR_DICOM_DIR dicoms_sorted
 ```
+<script>
+$(function(){
+    $('#text').load('/index #TEST');
+});
+</script>
 
 ## I have sorted DICOMs
 
