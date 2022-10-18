@@ -25,7 +25,7 @@ python3 /opt/QSMxT/run_0_dicomSort.py YOUR_DICOM_DIR dicoms_sorted
 ```
 <script>
 $(function(){
-    $('#text').load('/qsmxt.github.io #TEST');
+    $('#text').load('/index.md #TEST');
 });
 </script>
 
