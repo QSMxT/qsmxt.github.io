@@ -14,8 +14,6 @@ nav_order: 1
 
 QSMxT is an *end-to-end* pipeline that automates the reconstruction, segmentation and analysis of QSM data across large groups of participants, from scanner images (DICOMs) through to susceptibility maps and quantitative outputs.
 
-<div id="TEST">ABC</div>
-
 ## What is QSM?
 
 <a href="https://doi.org/10.1002/nbm.3569" data-placement="top" data-toggle="popover" data-trigger="hover focus" target="_blank" data-content="Click to see Deistung et al. 'Overview of Quantitative Susceptibility Mapping'.">Quantitative Susceptibility Mapping</a> (QSM) is an emerging form of <a href="#" data-placement="top" data-toggle="popover" data-trigger="hover focus" data-content="Quantitative MRI measures a physical property rather than a signal strength, such that values are measured independently of scanner hardware or acquisition settings.">quantitative MRI</a> that aims to measure the <a href="#" data-placement="top" data-trigger="hover focus" data-toggle="popover" data-content="Magnetic susceptibility (χ; 'chi') is the degree to which an object becomes magnetised by an external magnetic field.">magnetic susceptibility</a> of objects. Susceptibility maps are derived by post-processing the phase component of the complex MRI signal from a T2*-weighted acquisition such as 3D gradient-echo (3D-GRE) or 3D echo planar imaging (3D-EPI). QSM has <a href="https://doi.org/10.1002/nbm.3569" data-placement="top" data-toggle="popover" data-trigger="hover focus" target="_blank" data-content="Click to see Deistung et al. 'Overview of Quantitative Susceptibility Mapping'.">many applications</a>, mostly in human brain imaging of conditions such as traumatic brain injuries, neuroinflammatory and neurodegenerative diseases, ageing, tumours, with emerging applications across the human body and in animals.
@@ -46,16 +44,11 @@ In addition, since each processing step automated by QSMxT uses a range of under
 
 See the [using QSMxT](/using-qsmxt) page for the underlying algorithms used for each step.
 
-A huge number of QSM algorithms have been proposed in recent years, and each have their own advantages and disadvantages. Since we needed to choose specific algorithms to bundle with QSMxT, we had to make challenging choices which require justification. Our priorities with with QSMxT are as follows:
+Many QSM algorithms have been proposed in recent years, with each having unique advantages and disadvantages. However, most algorithms are written in languages that are difficult to automate across large and varied datasets, and/or require proprietary licensing. We chose algorithms implemented in languages that were possible to run within open-source and containerised environments.
 
- - Processing tasks must be automated and not require manual interventions between intermediate steps, such that minimal domain knowledge is required
- - Processing tasks must be scalable across processors or nodes in HPCs, such that large clinical datasets can be processed to produce meaningful results
- - Algorithms and implementations must perform competitively with respect to a ground truth (e.g. in the QSM challenge 2.0 dataset)
- - Algorithms and implementations must be open-source
- - Algorithms and implementations must not require proprietary licensing (e.g. MATLAB)
- - Algorithms and implementations must not rely on priors for specific applications such as brain imaging or healthy subjects only
+## Can you include my preferred algorithm in QSMxT? 
 
-With these priorities in mind, we see QSMxT as an important software suite that lowers the barrier-to-entry for QSM users and enables large-scale clinical studies. This is crucial to advance the method and ultimately pave the way towards clinical integration of QSM.
+If you are able to provide or point us to an implementation of a QSM algorithm in a language that can be run in a command-line environment, along with a justified use-case, we would gladly work with you to integrate it. Feel free to open an issue on GitHub with your request. We can also accept contributions in the form of pull requests to the GitHub repository if you are able to integrate it yourself. 
 
 <script>
 $(document).ready(function(){
@@ -64,3 +57,4 @@ $(document).ready(function(){
 $("[data-toggle=popover]")
 .popover({html:true})
 </script>
+

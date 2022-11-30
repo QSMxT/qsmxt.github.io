@@ -24,11 +24,11 @@ This pipeline is useful if:
 
 ## What does this pipeline do?
 
-This pipeline will segment T1-weighted images using before registering them to the T2\*-weighted space (the same space as QSM results). Segmentation is performed using FastSurfer with CPU processing. Registration is performed using ANTs via the `` script.
+This pipeline will segment T1-weighted images using before registering them to the T2\*-weighted space (the same space as QSM results). Segmentation is performed using FastSurfer with CPU processing. Registration is performed using ANTs via the `antsRegistrationSyNQuick.sh` script.
 
 ## Running the pipeline
 
-Use the following command to initiate the segmentation pipeline (replacing `YOUR_BIDS_DIR` with your BIDS directory, `YOUR_QSM_DIR` with the QSM output directory, and `segmentations` with your preferred output directory for segmentation results):
+Use the following command to initiate the segmentation pipeline (replacing `YOUR_BIDS_DIR` with your BIDS directory, `YOUR_QSM_DIR` with the top-level QSM output directory produced by QSMxT, and `segmentations` with your preferred output directory for segmentation results):
 
 ```bash
 python3 /opt/QSMxT/run_3_segment.py YOUR_BIDS_DIR YOUR_QSM_DIR segmentations
