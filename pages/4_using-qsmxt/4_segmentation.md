@@ -24,7 +24,7 @@ This pipeline is useful if:
 
 ## What does this pipeline do?
 
-This pipeline will segment T1-weighted images using before registering them to the T2\*-weighted space (the same space as QSM results). Segmentation is performed using FastSurfer with CPU processing. Registration is performed using ANTs via the `antsRegistrationSyNQuick.sh` script.
+This pipeline will segment T1-weighted images before registering them to the T2\*-weighted space (the same space as QSM results). Segmentation is performed using FastSurfer with CPU processing. Registration is performed using ANTs via the `antsRegistrationSyNQuick.sh` script.
 
 ## Running the pipeline
 
