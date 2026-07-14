@@ -1,0 +1,14 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="QSM-CI">
+  <defs>
+    <linearGradient id="ic-ci" x1="2" y1="2" x2="30" y2="30" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#34d399"/><stop offset="1" stop-color="#059669"/>
+    </linearGradient>
+  </defs>
+  <rect x="1.5" y="1.5" width="29" height="29" rx="8" fill="url(#ic-ci)"/>
+  <!-- benchmark: ascending leaderboard bars -->
+  <g transform="translate(4,4)" stroke="#fff" stroke-width="2.6" stroke-linecap="round" fill="none">
+    <path d="M6 19v-4"/>
+    <path d="M12 19V9"/>
+    <path d="M18 19V5"/>
+  </g>
+</svg>

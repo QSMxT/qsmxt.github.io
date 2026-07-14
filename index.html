@@ -1,5 +1,143 @@
 <!DOCTYPE html>
-<meta charset="utf-8">
-<title>Redirecting to https://qsmxt.github.io/QSMxT</title>
-<meta http-equiv="refresh" content="0; URL=https://qsmxt.github.io/QSMxT">
-<link rel="canonical" href="https://qsmxt.github.io/QSMxT">
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The QSMxT Ecosystem — one engine, a family of tools</title>
+  <meta name="description" content="The QSMxT Ecosystem: an open family of Quantitative Susceptibility Mapping tools sharing one Rust engine (QSM.rs) — the QSMxT pipeline, the QSMbly browser app, and the QSM-CI benchmark.">
+  <link rel="icon" href="icons/qsm-hub.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="qsm-tokens.css">
+  <script>
+    (function () {
+      var s = document.createElement("script");
+      var local = location.hostname === "localhost" || location.hostname === "127.0.0.1";
+      s.src = local ? "/qsm-nav.js" : "https://qsmxt.github.io/qsm-nav.js";
+      s.dataset.current = "hub";
+      document.head.appendChild(s);
+    })();
+  </script>
+  <style>
+    :root {
+      /* the hub is multi-accent: rainbow headline, per-tool card accents */
+      --qsm-accent: #a855f7;
+      --qsm-accent-2: #c084fc;
+      --qsm-title-grad: linear-gradient(100deg, #fdba74 0%, #d8b4fe 34%, #93c5fd 68%, #6ee7b7 100%);
+      --rs: #f97316; --xt: #a855f7; --bly: #3b82f6; --ci: #10b981;
+    }
+    .flow { display: flex; align-items: center; justify-content: flex-start; flex-wrap: wrap;
+      gap: .5rem; margin: 2.2rem 0 0; color: var(--qsm-muted); font-size: .95rem; }
+    .flow b { font-weight: 600; }
+    .flow .arrow { color: var(--qsm-dim); }
+    .card-head { display: flex; align-items: center; gap: .6rem; }
+    .card-head img { width: 30px; height: 30px; }
+    .card-name { font-size: 1.2rem; font-weight: 700; letter-spacing: -.01em; }
+    .card-role { color: var(--qsm-card-accent); font-weight: 600; font-size: .78rem; letter-spacing: .08em;
+      text-transform: uppercase; margin: .7rem 0 .55rem; }
+    .card-desc { color: var(--qsm-muted); font-size: .95rem; margin: 0; flex: 1; }
+    .card-cta { margin-top: 1rem; color: var(--qsm-text); font-weight: 600; font-size: .9rem; }
+    .qsm-card:hover .card-cta { color: var(--qsm-card-accent); }
+    .qsm-card.rs  { --qsm-card-accent: var(--rs); }
+    .qsm-card.xt  { --qsm-card-accent: var(--xt); }
+    .qsm-card.bly { --qsm-card-accent: var(--bly); }
+    .qsm-card.ci  { --qsm-card-accent: var(--ci); }
+    .foot-row { display: flex; flex-wrap: wrap; gap: 1rem 1.5rem; justify-content: space-between; }
+  </style>
+</head>
+<body class="qsm-page">
+  <nav class="qsm-subnav">
+    <div class="qsm-subnav__inner">
+      <a class="qsm-subnav__brand" href="/"><img src="icons/qsm-hub.svg" alt="">The QSMxT Ecosystem</a>
+      <div class="qsm-subnav__links">
+        <a href="https://github.com/QSMxT">GitHub</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="qsm-hero">
+    <div class="qsm-hero__inner">
+      <h1 class="qsm-title">The <span class="grad">QSMxT</span> Ecosystem</h1>
+      <p class="qsm-lede">
+        A family of open tools for Quantitative Susceptibility Mapping — turning MRI phase into maps
+        of tissue magnetic susceptibility. The QSMxT pipeline and the QSMbly browser app share one
+        Rust engine (<a href="https://astewartau.github.io/QSM.rs/">QSM.rs</a>), so a result you get
+        in the browser is the same one you'd get on a cluster. Alongside them, the QSM-CI benchmark
+        scores QSM reconstruction methods of any kind against ground truth.
+      </p>
+      <div class="flow">
+        <b style="color:var(--rs)">QSM.rs</b><span class="arrow">— the engine — powers</span>
+        <b style="color:var(--xt)">QSMxT</b><span class="arrow">&amp;</span>
+        <b style="color:var(--bly)">QSMbly</b><span class="arrow">&nbsp;&middot;&nbsp;</span>
+        <b style="color:var(--ci)">QSM-CI</b><span class="arrow">benchmarks QSM methods</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="qsm-wrap">
+    <section class="qsm-cards" style="padding:1rem 0 2rem">
+      <a class="qsm-card rs" href="https://astewartau.github.io/QSM.rs/">
+        <div class="card-head"><img src="icons/qsm-rs.svg" alt=""><span class="card-name">QSM.rs</span></div>
+        <div class="card-role">The engine</div>
+        <p class="card-desc">A Rust library implementing 40+ QSM algorithms — brain extraction, phase
+          unwrapping, background field removal, dipole inversion, and source separation. QSMxT and
+          QSMbly both call into it, so they produce identical results.</p>
+        <span class="card-cta">Explore the library →</span>
+      </a>
+      <a class="qsm-card xt" href="https://qsmxt.github.io/QSMxT/">
+        <div class="card-head"><img src="icons/qsmxt.svg" alt=""><span class="card-name">QSMxT</span></div>
+        <div class="card-role">The pipeline</div>
+        <p class="card-desc">A fast, BIDS-native command-line pipeline and interactive TUI. Takes raw
+          scanner DICOMs to susceptibility maps in a single self-contained binary, built for batch
+          processing and clusters.</p>
+        <span class="card-cta">Read the docs →</span>
+      </a>
+      <a class="qsm-card bly" href="https://qsmbly.neurodesk.org/">
+        <div class="card-head"><img src="icons/qsmbly.svg" alt=""><span class="card-name">QSMbly</span></div>
+        <div class="card-role">The browser app</div>
+        <p class="card-desc">The whole pipeline compiled to WebAssembly, running entirely in your
+          browser. No install, no upload — your data never leaves your machine. The fastest way to
+          experiment with QSM methods interactively.</p>
+        <span class="card-cta">Launch the app →</span>
+      </a>
+      <a class="qsm-card ci" href="https://qsmxt.github.io/QSM-CI/">
+        <div class="card-head"><img src="icons/qsm-ci.svg" alt=""><span class="card-name">QSM-CI</span></div>
+        <div class="card-role">The benchmark</div>
+        <p class="card-desc">An open challenge and live leaderboard for QSM reconstruction. Submit an
+          algorithm in any language; it runs against phantom ground truth and is scored on the same
+          metrics, stage by stage and end to end.</p>
+        <span class="card-cta">See the leaderboard →</span>
+      </a>
+    </section>
+
+    <section class="qsm-section">
+      <h2>Why one engine matters</h2>
+      <p>
+        In QSM, the same data can give very different maps depending on which unwrapping,
+        background-removal, and inversion methods you chain together. When every tool reimplements
+        those methods, results stop being comparable. Here they don't:
+        <b style="color:var(--bly)">QSMbly</b> in the browser and
+        <b style="color:var(--xt)">QSMxT</b> on a cluster both call the same
+        <b style="color:var(--rs)">QSM.rs</b> functions, so you can experiment in the browser, scale
+        up on the command line, and trust that the numbers line up. And when you want to know how any
+        method actually performs, <b style="color:var(--ci)">QSM-CI</b> scores QSM reconstructions —
+        in any language, QSM.rs's among them — against ground truth.
+      </p>
+    </section>
+  </main>
+
+  <footer class="qsm-footer qsm-wrap">
+    <div class="foot-row">
+      <span>The QSMxT Ecosystem · open source · MIT-licensed components</span>
+      <span>
+        <a href="https://astewartau.github.io/QSM.rs/">QSM.rs</a> ·
+        <a href="https://qsmxt.github.io/QSMxT/">QSMxT</a> ·
+        <a href="https://qsmbly.neurodesk.org/">QSMbly</a> ·
+        <a href="https://qsmxt.github.io/QSM-CI/">QSM-CI</a> ·
+        <a href="https://www.neurodesk.org/">Neurodesk</a>
+      </span>
+    </div>
+  </footer>
+</body>
+</html>

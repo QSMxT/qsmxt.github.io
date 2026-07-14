@@ -1,0 +1,14 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="QSM ecosystem">
+  <defs>
+    <linearGradient id="ic-hub" x1="2" y1="2" x2="30" y2="30" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#f97316"/><stop offset=".38" stop-color="#c026d3"/>
+      <stop offset=".72" stop-color="#3b82f6"/><stop offset="1" stop-color="#10b981"/>
+    </linearGradient>
+  </defs>
+  <rect x="1.5" y="1.5" width="29" height="29" rx="8" fill="url(#ic-hub)"/>
+  <!-- family mark: chi (χ), magnetic susceptibility -->
+  <g stroke="#fff" stroke-width="2.6" stroke-linecap="round" fill="none">
+    <path d="M10 9 C 13 13, 19 19, 22 23"/>
+    <path d="M22 9 C 19 13, 16 16, 13.5 19 C 12 21, 11 22, 9.5 24"/>
+  </g>
+</svg>
