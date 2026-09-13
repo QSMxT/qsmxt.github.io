@@ -9,6 +9,7 @@
  *       var s = document.createElement("script");
  *       var local = location.hostname === "localhost" || location.hostname === "127.0.0.1";
  *       s.src = local ? "/qsm-nav.js" : "https://qsmxt.github.io/qsm-nav.js";
+ *       s.crossOrigin = "anonymous";         // required on cross-origin-isolated pages (QSMbly)
  *       s.dataset.current = "xt";            // rs | xt | bly | ci | hub
  *       // s.dataset.target = "#some-slot";  // optional mount point (default: top of <body>)
  *       document.head.appendChild(s);
