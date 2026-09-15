@@ -10,7 +10,7 @@
  *       var local = location.hostname === "localhost" || location.hostname === "127.0.0.1";
  *       s.src = local ? "/qsm-nav.js" : "https://qsmxt.github.io/qsm-nav.js";
  *       s.crossOrigin = "anonymous";         // required on cross-origin-isolated pages (QSMbly)
- *       s.dataset.current = "xt";            // rs | xt | bly | ci | hub
+ *       s.dataset.current = "xt";            // rs | recon | xt | bly | ci | hub
  *       // s.dataset.target = "#some-slot";  // optional mount point (default: top of <body>)
  *       document.head.appendChild(s);
  *     })();
@@ -39,6 +39,8 @@
   var PROJECTS = [
     { id: "rs",  name: "QSM.rs", role: "engine",    color: "#f97316",
       url: LOCAL ? "/QSM.rs/"  : "https://astewartau.github.io/QSM.rs/" },
+    { id: "recon", name: "QSMxT Recon", role: "scanner", color: "#f43f5e",
+      url: LOCAL ? "/recon/"   : "https://qsmxt.github.io/recon/" },
     { id: "xt",  name: "QSMxT",  role: "pipeline",   color: "#a855f7",
       url: LOCAL ? "/QSMxT/"   : "https://qsmxt.github.io/QSMxT/" },
     { id: "bly", name: "QSMbly", role: "browser",    color: "#3b82f6",

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>The QSMxT Ecosystem</title>
-  <meta name="description" content="Open-source tools for quantitative susceptibility mapping: the QSM.rs library, the QSMxT pipeline, the QSMbly browser app, and the QSM-CI benchmark.">
+  <meta name="description" content="Open-source tools for quantitative susceptibility mapping: the QSM.rs library, the QSMxT pipeline, QSMxT Recon on the scanner, the QSMbly browser app, and the QSM-CI benchmark.">
   <link rel="icon" href="icons/qsm-hub.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -24,12 +24,18 @@
       /* the hub is multi-accent: rainbow headline, per-tool card accents */
       --qsm-accent: #a855f7;
       --qsm-accent-2: #c084fc;
-      --qsm-title-grad: linear-gradient(100deg, #fdba74 0%, #d8b4fe 34%, #93c5fd 68%, #6ee7b7 100%);
-      --rs: #f97316; --xt: #a855f7; --bly: #3b82f6; --ci: #10b981;
+      /* five tools, five stops, in eco-bar order (orange, rose, purple, blue, green) —
+         Recon sits before the pipeline precisely so the row reads as one smooth
+         warm→cool sweep. See hero-variants.html for the A/B.
+         For the whole-title version: put `grad` on the <h1> instead of the inner
+         <span> and keep this same gradient. */
+      --qsm-title-grad: linear-gradient(100deg, #fdba74 0%, #fda4af 25%, #d8b4fe 50%, #93c5fd 75%, #6ee7b7 100%);
+      --rs: #f97316; --xt: #a855f7; --recon: #f43f5e; --bly: #3b82f6; --ci: #10b981;
     }
     /* each tool keeps its own accent wherever it's named */
     .qsm-lede .t-rs  { color: var(--rs); }
     .qsm-lede .t-xt  { color: var(--xt); }
+    .qsm-lede .t-recon { color: var(--recon); }
     .qsm-lede .t-bly { color: var(--bly); }
     .qsm-lede .t-ci  { color: var(--ci); }
     .qsm-lede a { font-weight: 600; }
@@ -43,8 +49,16 @@
     .qsm-card:hover .card-cta { color: var(--qsm-card-accent); }
     .qsm-card.rs  { --qsm-card-accent: var(--rs); }
     .qsm-card.xt  { --qsm-card-accent: var(--xt); }
+    .qsm-card.recon { --qsm-card-accent: var(--recon); }
     .qsm-card.bly { --qsm-card-accent: var(--bly); }
     .qsm-card.ci  { --qsm-card-accent: var(--ci); }
+    /* five tools: one row on wide screens, then 3 / 2 / 1 as it narrows */
+    @media (min-width: 1000px) {
+      .qsm-cards { grid-template-columns: repeat(5, 1fr); }
+      .qsm-card { padding: 1.25rem 1.1rem 1.35rem; }
+      .card-name { font-size: 1.1rem; }
+      .card-desc { font-size: .9rem; }
+    }
     .foot-row { display: flex; flex-wrap: wrap; gap: 1rem 1.5rem; justify-content: space-between; }
   </style>
 </head>
@@ -63,12 +77,13 @@
       <h1 class="qsm-title">The <span class="grad">QSMxT</span> Ecosystem</h1>
       <p class="qsm-lede">
         Turn MRI phase into susceptibility maps: reconstruct in your browser with
-        <a class="t-bly" href="https://qsmbly.neurodesk.org/">QSMbly</a>, or process a whole study
-        from the command line with <a class="t-xt" href="https://qsmxt.github.io/QSMxT/">QSMxT</a>.
-        Both are built on <a class="t-rs" href="https://astewartau.github.io/QSM.rs/">QSM.rs</a>, a
-        Rust library with 40+ algorithms, and
-        <a class="t-ci" href="https://qsmxt.github.io/QSM-CI/">QSM-CI</a> shows you how those methods
-        and others actually perform. All free and open source.
+        <a class="t-bly" href="https://qsmbly.neurodesk.org/">QSMbly</a>, process a whole study
+        from the command line with <a class="t-xt" href="https://qsmxt.github.io/QSMxT/">QSMxT</a>,
+        or get a map back at the scanner console with
+        <a class="t-recon" href="recon/">QSMxT&nbsp;Recon</a>. They all run
+        <a class="t-rs" href="https://astewartau.github.io/QSM.rs/">QSM.rs</a>, a Rust library with
+        40+ algorithms, and <a class="t-ci" href="https://qsmxt.github.io/QSM-CI/">QSM-CI</a> shows
+        you how those methods and others actually perform. All free and open source.
       </p>
     </div>
   </header>
@@ -79,14 +94,21 @@
         <div class="card-head"><img src="icons/qsm-rs.svg" alt=""><span class="card-name">QSM.rs</span></div>
         <div class="card-role">Library</div>
         <p class="card-desc">Every stage of the reconstruction, from brain extraction to dipole
-          inversion, in one Rust crate. QSMxT and QSMbly both run this code.</p>
+          inversion, in one Rust crate. Everything else here runs this code.</p>
         <span class="card-cta">Explore the library →</span>
+      </a>
+      <a class="qsm-card recon" href="recon/">
+        <div class="card-head"><img src="icons/qsmxt-recon.svg" alt=""><span class="card-name">QSMxT Recon</span></div>
+        <div class="card-role">Scanner</div>
+        <p class="card-desc">The same pipeline as an OpenRecon app on the scanner. Maps go straight
+          into the patient database next to the source images, with no export step.</p>
+        <span class="card-cta">How to get it →</span>
       </a>
       <a class="qsm-card xt" href="https://qsmxt.github.io/QSMxT/">
         <div class="card-head"><img src="icons/qsmxt.svg" alt=""><span class="card-name">QSMxT</span></div>
         <div class="card-role">Pipeline</div>
-        <p class="card-desc">A command-line tool and interactive TUI that takes BIDS or raw DICOM data
-          to susceptibility maps. One binary, built for batch processing and clusters.</p>
+        <p class="card-desc">A command-line tool and interactive TUI that takes BIDS or raw DICOM
+          data to susceptibility maps. One binary, built for batch work and clusters.</p>
         <span class="card-cta">Read the docs →</span>
       </a>
       <a class="qsm-card bly" href="https://qsmbly.neurodesk.org/">
@@ -111,6 +133,7 @@
       <span>The QSMxT Ecosystem · open source · MIT, except QSMxT (GPL-3.0)</span>
       <span>
         <a href="https://astewartau.github.io/QSM.rs/">QSM.rs</a> ·
+        <a href="recon/">QSMxT Recon</a> ·
         <a href="https://qsmxt.github.io/QSMxT/">QSMxT</a> ·
         <a href="https://qsmbly.neurodesk.org/">QSMbly</a> ·
         <a href="https://qsmxt.github.io/QSM-CI/">QSM-CI</a> ·

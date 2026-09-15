@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QSMxT Recon — QSM on the scanner</title>
+  <meta name="description" content="Run the QSMxT pipeline on a Siemens MR scanner as an OpenRecon app. How to build the package from the open recipe, install it, and run a reconstruction.">
+  <link rel="icon" href="../icons/qsmxt-recon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../qsm-tokens.css">
+  <script>
+    (function () {
+      var s = document.createElement("script");
+      var local = location.hostname === "localhost" || location.hostname === "127.0.0.1";
+      s.src = local ? "/qsm-nav.js" : "https://qsmxt.github.io/qsm-nav.js";
+      s.dataset.current = "recon";
+      document.head.appendChild(s);
+    })();
+  </script>
+  <style>
+    :root { --qsm-accent: #f43f5e; --qsm-accent-2: #fb7185; }
+
+    /* ── hero: text left, scanner illustration right ── */
+    .hero-grid { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2.5rem; align-items: center; }
+    .hero-text { min-width: 0; }
+    .hero-art { width: clamp(260px, 32vw, 400px); }
+    .hero-art svg { width: 100%; height: auto; display: block; }
+    @media (max-width: 880px) { .hero-art { display: none; } }
+
+    /* Same text column as QSMbly's landing page: its .landing-inner is 1080px
+       border-box with 2rem padding, so its content spans 1016px. Our wraps are
+       content-box, so 1016px here puts the text edges in the identical place.
+       Content fills the column rather than a 46rem measure sitting in the left
+       two-thirds of the shared 72rem wrap; the eco-bar keeps its own 72rem so the
+       strip stays identical across sites. */
+    .qsm-subnav__inner, .qsm-hero__inner, main.qsm-wrap, footer.qsm-wrap { max-width: 1016px; }
+    .qsm-section p, .qsm-section ul, .code, .flow, .routes, .routes__note, .note,
+    ol.steps, .tbl-wrap, .lead { max-width: none; }
+
+    /* the C2P dropdown hangs below the hero, so don't clip it */
+    .qsm-hero { overflow: visible; padding-bottom: 3rem; }
+    .qsm-hero .qsm-lede { margin-bottom: 1.4rem; }
+    .qsm-hero .routes { margin: 0 0 .8rem; }
+
+    .qsm-subnav__links a.gh { display: inline-flex; align-items: center; padding: .4rem; border-radius: 8px; color: var(--qsm-muted); }
+    .qsm-subnav__links a.gh:hover { color: var(--qsm-text); background: var(--qsm-surface-2); }
+    .qsm-subnav__links a.gh svg { display: block; }
+
+    /* ── prose ── */
+    .qsm-section { scroll-margin-top: 4.5rem; }
+    .qsm-section h3 { font-size: 1.05rem; margin: 2rem 0 .5rem; letter-spacing: -.01em; }
+    .qsm-section a { color: var(--qsm-accent-2); text-decoration: none; }
+    .qsm-section a:hover { text-decoration: underline; }
+    .lead { font-size: 1.05rem; }
+    .qsm-section ul { color: var(--qsm-muted); padding-left: 1.1rem; }
+    .qsm-section ul li { margin: .35rem 0; }
+    strong { color: var(--qsm-text); font-weight: 600; }
+    code {
+      font-family: var(--qsm-font-mono); font-size: .86em; color: #dbe3ee;
+      background: var(--qsm-surface-2); border: 1px solid var(--qsm-border);
+      border-radius: 5px; padding: .1rem .35rem;
+      /* long Windows paths must not widen the page on narrow screens */
+      overflow-wrap: anywhere;
+    }
+
+    /* ── code blocks ── */
+    .code {
+      background: #0e131b; border: 1px solid var(--qsm-border); border-radius: 10px;
+      padding: .9rem 1.1rem; margin: .9rem 0 1.2rem; overflow-x: auto;
+      font-family: var(--qsm-font-mono); font-size: .855rem; line-height: 1.7;
+      color: #cdd6e4; white-space: pre;
+    }
+    .code .c { color: var(--qsm-dim); }
+    .code b { color: var(--qsm-accent-2); font-weight: 500; }
+
+    /* ── acquire → reconstruct → maps back ── */
+    .flow { display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: .85rem;
+      margin: 1.4rem 0 .4rem; }
+    .flow__step { display: flex; flex-direction: column; gap: .3rem; padding: 1.05rem 1.15rem;
+      background: var(--qsm-surface); border: 1px solid var(--qsm-border); border-radius: 12px;
+      color: var(--qsm-muted); font-size: .9rem; line-height: 1.5; }
+    .flow__step strong { font-size: 1rem; }
+    .flow__icon { width: 2.2rem; height: 2.2rem; border-radius: 10px; display: grid; place-items: center;
+      margin-bottom: .4rem; background: linear-gradient(100deg, var(--qsm-accent-2), var(--qsm-accent)); }
+    .flow__icon svg { width: 1.25rem; height: 1.25rem; fill: none; stroke: #0b0e14; stroke-width: 2;
+      stroke-linecap: round; stroke-linejoin: round; }
+
+    /* ── the two routes to the package ── */
+    .routes {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+      gap: .85rem; margin: 1.5rem 0 .9rem;
+    }
+    .routes .route {
+      display: flex; flex-direction: column; gap: .3rem;
+      padding: 1.1rem 1.25rem; border-radius: 12px; text-decoration: none;
+      border: 1px solid transparent;
+      transition: transform .14s ease, box-shadow .14s ease, border-color .14s, background-color .14s;
+    }
+    .routes .route:hover { transform: translateY(-2px); text-decoration: none; }
+    .route__label { font-weight: 700; font-size: 1.02rem; letter-spacing: -.01em; }
+    .route__sub { font-size: .875rem; line-height: 1.45; }
+    .route__arrow { display: inline-block; transition: transform .14s ease; }
+    .routes .route:hover .route__arrow { transform: translateX(3px); }
+
+    .routes .route--primary {
+      color: #0b0e14;
+      background: linear-gradient(100deg, var(--qsm-accent-2), var(--qsm-accent));
+      box-shadow: 0 8px 22px -10px var(--qsm-accent-ring);
+    }
+    .routes .route--primary .route__sub { color: rgba(11, 14, 20, .72); }
+    .routes .route--primary:hover { box-shadow: 0 12px 26px -10px var(--qsm-accent-ring); }
+
+    .routes .route--secondary {
+      color: var(--qsm-text); background: var(--qsm-surface); border-color: var(--qsm-border);
+    }
+    .routes .route--secondary .route__sub { color: var(--qsm-muted); }
+    .routes .route--secondary:hover { border-color: var(--qsm-accent); background: var(--qsm-surface-2); }
+
+    /* C2P is sharded per region with no global host, so the tile is a menu */
+    .routes .route-menu { position: relative; display: flex; flex-direction: column; }
+    .routes .route-menu > summary { flex: 1; cursor: pointer; list-style: none; }
+    .routes .route-menu > summary::-webkit-details-marker { display: none; }
+    .routes .route-menu > summary:hover { transform: none; }
+    .routes .route-menu > summary:focus-visible { outline: 2px solid var(--qsm-accent); outline-offset: 2px; }
+    .route__caret { display: inline-block; transition: transform .16s ease; font-size: .85em; }
+    .routes .route-menu[open] .route__caret { transform: rotate(180deg); }
+    .routes .route-menu[open] > summary.route--secondary { border-color: var(--qsm-accent); background: var(--qsm-surface-2); }
+    .routes .route-menu[open] > summary.route--primary { box-shadow: 0 12px 26px -10px var(--qsm-accent-ring); }
+
+    .routes .route-menu__panel {
+      position: absolute; top: calc(100% + .4rem); left: 0; right: 0; z-index: 40;
+      display: flex; flex-direction: column;
+      background: var(--qsm-surface-2); border: 1px solid var(--qsm-border);
+      border-radius: 12px; padding: .3rem; box-shadow: var(--qsm-shadow);
+    }
+    .routes .route-menu__panel a {
+      padding: .5rem .7rem; border-radius: 8px; text-decoration: none;
+      color: var(--qsm-text); font-size: .9rem; font-weight: 500;
+      transition: background-color .13s, color .13s;
+    }
+    .routes .route-menu__panel a:hover {
+      background: var(--qsm-accent-soft); color: var(--qsm-accent-2); text-decoration: none;
+    }
+
+    .routes__note { font-size: .85rem; color: var(--qsm-dim); margin: 0; }
+    .routes__note a { color: var(--qsm-muted); text-decoration: none; }
+    .routes__note a:hover { color: var(--qsm-text); text-decoration: underline; }
+
+    /* ── callouts ── */
+    .note {
+      margin: 1.4rem 0; padding: 1rem 1.2rem;
+      background: var(--qsm-surface); border: 1px solid var(--qsm-border);
+      border-left: 3px solid var(--qsm-accent); border-radius: 0 12px 12px 0;
+      color: var(--qsm-muted); font-size: .95rem;
+    }
+    .note p { margin: .5rem 0 0; max-width: none; }
+    .note p:first-child { margin-top: 0; }
+    .note__title { color: var(--qsm-text); font-weight: 600; font-size: .95rem; }
+
+    /* ── numbered steps ── */
+    ol.steps { counter-reset: s; list-style: none; padding: 0; margin: 1.2rem 0; }
+    ol.steps > li {
+      counter-increment: s; position: relative; padding: 0 0 1.15rem 2.6rem;
+      color: var(--qsm-muted); border-left: 1px solid var(--qsm-border); margin-left: .85rem;
+    }
+    ol.steps > li:last-child { border-left-color: transparent; padding-bottom: 0; }
+    ol.steps > li::before {
+      content: counter(s); position: absolute; left: -.85rem; top: -.15rem;
+      width: 1.7rem; height: 1.7rem; border-radius: 50%;
+      background: var(--qsm-surface-2); border: 1px solid var(--qsm-border);
+      color: var(--qsm-text); font-size: .8rem; font-weight: 600;
+      display: grid; place-items: center;
+    }
+    ol.steps .code { margin: .7rem 0 .2rem; }
+
+    /* ── tables ── */
+    .tbl-wrap { overflow-x: auto; margin: 1.1rem 0 1.4rem; }
+    .tbl { width: 100%; border-collapse: collapse; font-size: .93rem; }
+    .tbl th, .tbl td { text-align: left; padding: .6rem .85rem; vertical-align: top;
+      border-bottom: 1px solid var(--qsm-border); }
+    .tbl th { color: var(--qsm-text); font-weight: 600; font-size: .75rem;
+      text-transform: uppercase; letter-spacing: .07em; white-space: nowrap; }
+    .tbl td { color: var(--qsm-muted); }
+    .tbl td:first-child { color: var(--qsm-text); font-weight: 500; white-space: nowrap; }
+
+    /* ── link cards at the end ── */
+    .links { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+      gap: .8rem; margin: 1.3rem 0 0; }
+    .links a {
+      display: block; padding: .95rem 1.1rem; background: var(--qsm-surface);
+      border: 1px solid var(--qsm-border); border-radius: 12px; text-decoration: none;
+      color: var(--qsm-text); font-weight: 600; font-size: .95rem; transition: border-color .15s, background-color .15s;
+    }
+    .links a:hover { border-color: var(--qsm-accent); background: var(--qsm-surface-2); text-decoration: none; }
+    .links span { display: block; color: var(--qsm-muted); font-weight: 400; font-size: .87rem; margin-top: .2rem; }
+
+    .foot-row { display: flex; flex-wrap: wrap; gap: 1rem 1.5rem; justify-content: space-between; }
+  </style>
+</head>
+<body class="qsm-page">
+  <nav class="qsm-subnav">
+    <div class="qsm-subnav__inner">
+      <a class="qsm-subnav__brand" href="./"><img src="../icons/qsmxt-recon.svg" alt="">QSMxT Recon</a>
+      <div class="qsm-subnav__links">
+        <a class="gh" href="https://github.com/neurodesk/openrecon/tree/main/recipes/qsmxt"
+           aria-label="QSMxT OpenRecon recipe on GitHub" title="OpenRecon recipe on GitHub">
+          <svg viewBox="0 0 16 16" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="qsm-hero">
+    <div class="qsm-hero__inner hero-grid">
+      <div class="hero-text">
+      <h1 class="qsm-title">QSMxT <span class="grad">Recon</span></h1>
+      <p class="qsm-lede">
+        The QSMxT pipeline as an OpenRecon app. Susceptibility maps are reconstructed on the
+        scanner and land in the patient database.
+      </p>
+      <div class="routes">
+        <details class="route-menu">
+          <summary class="route route--primary">
+            <span class="route__label">Install via teamplay C2P <span class="route__caret" aria-hidden="true">▾</span></span>
+            <span class="route__sub">If your site has access. Pick your region.</span>
+          </summary>
+          <div class="route-menu__panel">
+            <a href="https://webclient.au.api.teamplay.siemens-healthineers.com/c2p" target="_blank" rel="noopener">Australia</a>
+            <a href="https://webclient.ca.api.teamplay.siemens-healthineers.com/c2p" target="_blank" rel="noopener">Canada</a>
+            <a href="https://webclient.eu.api.teamplay.siemens-healthineers.com/c2p" target="_blank" rel="noopener">Europe</a>
+            <a href="https://webclient.jp.api.teamplay.siemens-healthineers.com/c2p" target="_blank" rel="noopener">Japan</a>
+            <a href="https://webclient.us.api.teamplay.siemens-healthineers.com/c2p" target="_blank" rel="noopener">United States</a>
+          </div>
+        </details>
+        <a class="route route--secondary" href="#build">
+          <span class="route__label">Build it yourself <span class="route__arrow">→</span></span>
+          <span class="route__sub">One command on any machine with Docker.</span>
+        </a>
+      </div>
+      <p class="routes__note">
+        The built package can't be hosted here — OpenRecon apps go through Siemens to licensed sites.
+        The recipe is <a href="https://github.com/neurodesk/openrecon/tree/main/recipes/qsmxt" target="_blank" rel="noopener">neurodesk/openrecon</a>.
+      </p>
+      </div>
+
+      <!-- scanner illustration: same language as the icon (housing, bore, table), plus a
+           QSM series coming back out, badged with the ecosystem chi -->
+      <div class="hero-art" aria-hidden="true">
+        <svg viewBox="0 0 400 310" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="ha-rose" x1="0" y1="0" x2="1" y2="1">
+              <stop stop-color="#fb7185"/><stop offset="1" stop-color="#e11d48"/>
+            </linearGradient>
+            <linearGradient id="ha-tint" x1="0" y1="0" x2="0" y2="1">
+              <stop stop-color="#fb7185" stop-opacity=".16"/><stop offset="1" stop-color="#e11d48" stop-opacity=".05"/>
+            </linearGradient>
+            <linearGradient id="ha-table" x1="0" y1="0" x2="0" y2="1">
+              <stop stop-color="#fda4af"/><stop offset="1" stop-color="#f43f5e"/>
+            </linearGradient>
+            <radialGradient id="ha-glow" cx=".5" cy=".5" r=".5">
+              <stop stop-color="#f43f5e" stop-opacity=".3"/><stop offset="1" stop-color="#f43f5e" stop-opacity="0"/>
+            </radialGradient>
+            <radialGradient id="ha-bore" cx=".5" cy=".42" r=".55">
+              <stop stop-color="#232b38"/><stop offset=".7" stop-color="#10141b"/><stop offset="1" stop-color="#0b0e14"/>
+            </radialGradient>
+          </defs>
+          <ellipse cx="200" cy="150" rx="220" ry="150" fill="url(#ha-glow)"/>
+          <!-- floor shadow -->
+          <ellipse cx="200" cy="262" rx="175" ry="16" fill="#f43f5e" fill-opacity=".08"/>
+          <!-- gantry: tall squircle front face with a panel seam, on feet -->
+          <rect x="92" y="240" width="44" height="12" rx="4" fill="var(--qsm-surface)" stroke="var(--qsm-border)" stroke-width="2"/>
+          <rect x="264" y="240" width="44" height="12" rx="4" fill="var(--qsm-surface)" stroke="var(--qsm-border)" stroke-width="2"/>
+          <rect x="70" y="20" width="260" height="222" rx="62" fill="url(#ha-tint)" stroke="url(#ha-rose)" stroke-width="3"/>
+          <rect x="86" y="36" width="228" height="190" rx="50" fill="none" stroke="#fb7185" stroke-opacity=".22" stroke-width="1.5"/>
+          <!-- bore, with the tunnel receding (inner rings step up toward the horizon) -->
+          <circle cx="200" cy="128" r="84" fill="none" stroke="#fb7185" stroke-opacity=".3" stroke-width="2"/>
+          <circle cx="200" cy="128" r="74" fill="url(#ha-bore)" stroke="url(#ha-rose)" stroke-width="3"/>
+          <circle cx="200" cy="125" r="58" fill="none" stroke="#fb7185" stroke-opacity=".32" stroke-width="2"/>
+          <circle cx="200" cy="122" r="42" fill="none" stroke="#fb7185" stroke-opacity=".18" stroke-width="1.5"/>
+          <!-- patient table sliding out of the bore toward the viewer, on its pedestal -->
+          <polygon points="170,158 230,158 258,268 142,268" fill="url(#ha-table)"/>
+          <polygon points="142,268 258,268 258,280 142,280" fill="#be123c"/>
+          <line x1="200" y1="172" x2="200" y2="262" stroke="#fff" stroke-opacity=".18" stroke-width="1.5"/>
+          <line x1="181" y1="176" x2="219" y2="176" stroke="#fff" stroke-opacity=".35" stroke-width="2" stroke-linecap="round"/>
+          <rect x="176" y="280" width="48" height="22" rx="5" fill="var(--qsm-surface)" stroke="url(#ha-rose)" stroke-width="2.5"/>
+          <!-- the QSM series coming back: the QSMxT chi, badged -->
+          <path d="M252 84 C 275 60, 295 52, 320 46" fill="none" stroke="#fb7185" stroke-opacity=".6"
+                stroke-width="2" stroke-dasharray="3 5" stroke-linecap="round"/>
+          <g transform="translate(322 8)">
+            <rect width="64" height="64" rx="16" fill="url(#ha-rose)"/>
+            <!-- chi (χ) outline from GNU FreeSerif Italic — same glyph as the QSMxT icon, 2× -->
+            <g transform="matrix(0.05572,0,0,-0.05572,19.5728,38.5758)">
+              <path d="M265 -28 252 95 498 431H406L240 203L227 332C222 375 219 441 158 441C90 441 64 356 60 303L81 296C88 339 109 361 149 361C192 361 193 314 197 282L210 164L-52 -195H40L222 57L236 -62C241 -103 246 -205 307 -205C363 -205 398 -133 402 -73L381 -66C374 -86 370 -130 319 -130C279 -130 268 -59 265 -28Z" fill="#fff"/>
+            </g>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </header>
+
+  <main class="qsm-wrap">
+
+    <!-- ───────────────────────── what it does ───────────────────────── -->
+    <section class="qsm-section" id="what" style="border-top:none; padding-top:1rem">
+      <h2>What it does</h2>
+      <p class="lead">
+        <a href="https://www.siemens-healthineers.com/magnetic-resonance-imaging/open-magnetom-community">OpenRecon</a>
+        runs a container inside the scanner's reconstruction system. QSMxT Recon is QSMxT in that container.
+      </p>
+      <div class="flow">
+        <div class="flow__step">
+          <span class="flow__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 12h3.5l2.5-7 4 14 2.5-7H21"/></svg></span>
+          <strong>Acquire</strong>
+          <span>A GRE with magnitude and unfiltered phase, OpenRecon enabled on the protocol.</span>
+        </div>
+        <div class="flow__step">
+          <span class="flow__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="7" y="7" width="10" height="10" rx="1.6"/><rect x="10.5" y="10.5" width="3" height="3" rx=".6"/><path d="M9.5 3v4M14.5 3v4M9.5 17v4M14.5 17v4M3 9.5h4M3 14.5h4M17 9.5h4M17 14.5h4"/></svg></span>
+          <strong>Reconstruct</strong>
+          <span>Unwrapping, background removal, masking and inversion run on the scanner.</span>
+        </div>
+        <div class="flow__step">
+          <span class="flow__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="7.5" ry="3"/><path d="M4.5 6v6c0 1.66 3.36 3 7.5 3s7.5-1.34 7.5-3V6"/><path d="M4.5 12v6c0 1.66 3.36 3 7.5 3s7.5-1.34 7.5-3v-6"/></svg></span>
+          <strong>Get the maps back</strong>
+          <span>QSM — plus SWI, T2*, R2* and the mask if you want them — as DICOM series next to the source images.</span>
+        </div>
+      </div>
+      <div class="note">
+        <span class="note__title">Research use only.</span>
+        <p>Not a medical device, not for diagnosis. Clear scanner-side installs with your physicist
+          and local governance.</p>
+      </div>
+    </section>
+
+    <!-- ───────────────────────── requirements ───────────────────────── -->
+    <section class="qsm-section" id="requirements">
+      <h2>Before you start</h2>
+
+      <h3>At the scanner</h3>
+      <ul>
+        <li>A Siemens MR scanner with <strong>OpenRecon</strong> licensed and enabled. Install routines
+          differ between <strong>XA60/XA61</strong> and <strong>XA70 / Numaris&nbsp;X VA70 and later</strong>
+          (including XB10/VB10) — both are covered below.</li>
+        <li>Administrator access to the MRAWP host, since the package is installed from a console.</li>
+      </ul>
+
+      <h3>The acquisition</h3>
+      <ul>
+        <li>A plain <strong>gradient-echo (GRE)</strong> sequence with both magnitude and
+          <strong>unfiltered phase</strong> reconstruction enabled. Filtered phase from an SWI sequence
+          will not work as input.</li>
+        <li>Magnitude and phase must have matching echoes and the same distortion-correction setting.</li>
+        <li>Single-echo and multi-echo both work. T2*&nbsp;and R2*&nbsp;maps need multi-echo.</li>
+      </ul>
+      <p>
+        There is an <a href="https://github.com/neurodesk/neurocontainers/blob/main/recipes/qsmxt/gre_qsm.pro">example Siemens 3&nbsp;T GRE protocol</a>
+        to start from — five echoes at 5, 10, 15, 20 and 25&nbsp;ms. Check the acquisition and safety
+        settings against your own site's before you use it. It also stores different reconstruction
+        settings from the package defaults, so look over the OpenRecon controls after loading it.
+      </p>
+
+      <h3>To build the package</h3>
+      <ul>
+        <li>Docker, Python&nbsp;3 and 7-Zip on a machine you control — a laptop is fine. The build pulls a
+          container image of a few GB, so give it the disk and the bandwidth.</li>
+        <li>You do not need scanner access to build; you only need it to install.</li>
+      </ul>
+    </section>
+
+    <!-- ───────────────────────── build ───────────────────────── -->
+    <section class="qsm-section" id="build">
+      <h2>Build the package</h2>
+      <p>
+        The build wraps the Neurodesk QSMxT container in the OpenRecon metadata and start command that
+        the scanner expects, then zips it. On macOS, <code>brew install python p7zip</code> covers the
+        prerequisites; on Linux use your package manager.
+      </p>
+
+      <ol class="steps">
+        <li>
+          Clone the recipe repository and set up its Python environment. The build script refuses to
+          install anything unless a virtualenv is active.
+          <div class="code"><span class="c">git clone https://github.com/neurodesk/openrecon.git
+cd openrecon
+
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install jsonschema packaging</span></div>
+        </li>
+        <li>
+          Build from the recipe directory. This pulls the QSMxT container if it is not already in your
+          local Docker cache, so expect it to take a while the first time.
+          <div class="code">cd recipes/qsmxt
+/bin/bash ../build.sh</div>
+          <p style="margin:.4rem 0 0; font-size:.92rem">
+            Pass <code>--local-cache</code> instead to require an image that is already cached and skip
+            the pull — useful for an offline build. In that mode the script asks whether you want the
+            OpenRecon artifact, the FIRE one, or both.
+          </p>
+        </li>
+        <li>
+          You end up with two artifacts, both named for the QSMxT version in the recipe's
+          <code>params.sh</code> (<strong>9.19.1</strong> at the time of writing):
+          <div class="code">OpenRecon_neurodesk_qsmxt_V9.19.1.zip   <span class="c">← the scanner package</span>
+FIRE_neurodesk_qsmxt_V9.19.1/           <span class="c">← for the WIP 070 FIRE framework</span></div>
+        </li>
+      </ol>
+
+      <div class="note">
+        <span class="note__title">Which one do I want?</span>
+        <p>The <strong>OpenRecon</strong> zip is the one you install into the scanner's package store,
+          and it is what the rest of this page describes. The <strong>FIRE</strong> bundle targets the
+          WIP&nbsp;070 FIRE framework instead — same container, different plumbing. See
+          <a href="#fire">running it under FIRE</a>.</p>
+      </div>
+    </section>
+
+    <!-- ───────────────────────── install ───────────────────────── -->
+    <section class="qsm-section" id="install">
+      <h2>Install it on the scanner</h2>
+      <p>
+        Copy the zip to the scanner host without extracting it. <strong>Close every open protocol
+        first</strong> — an open protocol will block the install.
+      </p>
+
+      <h3>XA70 / Numaris X VA70 and later (XB10, VB10)</h3>
+      <p>These use the Numaris/Edge routine for installing OpenRecon applications.</p>
+      <ol class="steps">
+        <li>Exit Kiosk mode on the MRAWP with <code>Tab</code> + <code>Del</code> + <code>Num&nbsp;+</code>.</li>
+        <li>Create <code>C:\Temp\OR\Packages</code> and copy the zip there, still zipped.</li>
+        <li>
+          Open an elevated administrator CMD shell and change to the Numaris/Edge directory:
+          <div class="code">cd /d "%MREDGEHOME%"</div>
+        </li>
+        <li>
+          Install the package:
+          <div class="code">syngo.MR.Digi.Utils.Console.exe store --install-package "C:\Temp\OR\Packages\OpenRecon_neurodesk_qsmxt_V9.19.1.zip"</div>
+        </li>
+        <li>
+          Installation takes several minutes. Repeat this until the package shows up as installed:
+          <div class="code">syngo.MR.Digi.Utils.Console.exe store --list</div>
+        </li>
+      </ol>
+
+      <h3>XA60 and XA61</h3>
+      <ol class="steps">
+        <li>
+          Copy the zip, unextracted, to the file-transfer drop folder:
+          <div class="code">C:\Program Files\Siemens\Numaris\OperationalManagement\FileTransfer\incoming</div>
+        </li>
+        <li>Wait for the zip to disappear from <code>incoming</code> — that is the watcher picking it up.</li>
+        <li>
+          Watch the install in
+          <code>C:\ProgramData\Siemens\Numaris\log\syngo.MR.HostInfra.OpenRecon.Watcher</code>.
+          It first writes a 0&nbsp;KB file named for the container and version, which should then grow
+          to roughly 100–200&nbsp;KB.
+        </li>
+        <li>Once that log is written, open a protocol and check the package is listed.</li>
+        <li>
+          Run the sequence with OpenRecon enabled and check
+          <code>C:\ProgramData\Siemens\Numaris\log\OpenRecon.utr</code> for errors.
+        </li>
+      </ol>
+    </section>
+
+    <!-- ───────────────────────── run ───────────────────────── -->
+    <section class="qsm-section" id="run">
+      <h2>Run a reconstruction</h2>
+      <p>With the package installed, in the OpenRecon controls of your GRE protocol:</p>
+      <ol class="steps">
+        <li>Select <strong>qsmxt</strong> as the reconstruction package, and leave <strong>config</strong> on <strong>qsmxt</strong>.</li>
+        <li>Set <strong>Input images</strong> to match your acquisition. The default is <strong>Distortion corrected</strong>.</li>
+        <li>For a first run, leave <strong>Pipeline preset</strong> on <strong>Custom algorithm controls</strong>
+          with <strong>QSM algorithm</strong> = <strong>HD-QSM</strong>, <strong>Unwrap</strong> = <strong>ROMEO</strong>,
+          <strong>Background</strong> = <strong>iSMV</strong>.</li>
+        <li>Leave <strong>Mask preset</strong> on <strong>BET (recommended)</strong>.</li>
+        <li>Leave <strong>Output maps</strong> on <strong>QSM only</strong>. Keep <strong>Send original</strong>
+          on if you also want the source magnitude and phase series in the database.</li>
+        <li>Run the acquisition with OpenRecon enabled. When reconstruction finishes, the
+          <strong>QSMxT QSM</strong> series appears next to the original images.</li>
+      </ol>
+      <div class="note">
+        <span class="note__title">Reading the values.</span>
+        <p>QSM DICOM values are in parts per billion. Divide by 1000 for ppm, and use a viewer that
+          applies DICOM rescaling if you are measuring anything.</p>
+      </div>
+    </section>
+
+    <!-- ───────────────────────── options ───────────────────────── -->
+    <section class="qsm-section" id="options">
+      <h2>The controls</h2>
+
+      <h3>Input images</h3>
+      <div class="tbl-wrap"><table class="tbl">
+        <thead><tr><th>Option</th><th>When to use it</th></tr></thead>
+        <tbody>
+          <tr><td>Distortion corrected</td><td>Process the corrected magnitude and phase images. The default.</td></tr>
+          <tr><td>Not distortion corrected</td><td>Process the magnitude and phase series marked <code>ND</code>.</td></tr>
+          <tr><td>Both</td><td>Compare the two. Returns separate <code>DC</code> and <code>ND</code> series and takes about twice as long.</td></tr>
+        </tbody>
+      </table></div>
+      <p>
+        If reconstruction reports missing input images, check that both magnitude and unfiltered phase
+        exist for the correction setting you picked.
+      </p>
+
+      <h3>Output maps</h3>
+      <div class="tbl-wrap"><table class="tbl">
+        <thead><tr><th>Option</th><th>Result</th></tr></thead>
+        <tbody>
+          <tr><td>QSM only</td><td>The susceptibility map. The default.</td></tr>
+          <tr><td>All available</td><td>Everything the run produced, including the brain mask and combined magnitude.</td></tr>
+          <tr><td>Magnitude</td><td>Combined magnitude image.</td></tr>
+          <tr><td>Mask</td><td>The brain mask used — the quickest way to check coverage.</td></tr>
+          <tr><td>SWI</td><td>Susceptibility-weighted image.</td></tr>
+          <tr><td>T2 star</td><td>T2* map. Needs a multi-echo acquisition.</td></tr>
+          <tr><td>R2 star</td><td>R2* map. Needs a multi-echo acquisition.</td></tr>
+        </tbody>
+      </table></div>
+      <p><strong>Send original</strong> controls whether the source magnitude and phase come back too.
+        Turn it off to keep only the selected outputs.</p>
+
+      <h3>Reconstruction method</h3>
+      <p>
+        <strong>Pipeline preset</strong> picks a predefined combination of processing stages, and also
+        offers complete methods — QSMART, TGV, AutoQSM, NeXtQSM, iQSM and iQSM+. The packaged
+        deep-learning methods run offline on the CPU. A preset overrides the three stage controls;
+        choose <strong>Custom algorithm controls</strong> to set them yourself:
+      </p>
+      <ul>
+        <li><strong>Unwrap</strong> removes phase jumps. OpenRecon default: ROMEO.</li>
+        <li><strong>Background</strong> removes background-field contributions. Default: iSMV.</li>
+        <li><strong>QSM algorithm</strong> calculates susceptibility. Default: HD-QSM.</li>
+      </ul>
+      <p>
+        <strong>Default</strong> in a stage control means the OpenRecon default above — note these
+        differ from the QSMxT command-line defaults. Reconstruction time depends on the method, the
+        acquisition and the hardware. The
+        <a href="https://qsmxt.github.io/QSMxT/reference/algorithms/">QSMxT algorithm reference</a>
+        describes what each one does.
+      </p>
+
+      <h3>Brain mask</h3>
+      <p>
+        The mask defines what gets reconstructed. To see its coverage next to the map, set
+        <strong>Output maps</strong> to <strong>All available</strong>.
+      </p>
+      <ul>
+        <li>Start with <strong>BET (recommended)</strong>. If it is cutting off brain tissue, lower
+          <strong>BET threshold</strong> from its default of 0.5 to grow the mask.</li>
+        <li><strong>Robust threshold</strong> and <strong>BET + threshold union</strong> are the
+          threshold-based alternatives; the union takes anything either method selected.
+          <strong>Threshold input</strong> picks the image to threshold, <strong>Threshold method</strong>
+          picks Otsu or Percentile, and <strong>Mask percentile</strong> applies only to Percentile.</li>
+        <li><strong>Mask cleanup</strong> fills holes and closes small gaps. Default: close and fill holes.</li>
+      </ul>
+      <p>Mask settings apply independently of the pipeline preset.</p>
+    </section>
+
+    <!-- ───────────────────────── fire ───────────────────────── -->
+    <section class="qsm-section" id="fire">
+      <h2>Running it under FIRE instead</h2>
+      <p>
+        The same container also builds a bundle for the WIP&nbsp;070 FIRE framework. It is installed and
+        configured separately from the OpenRecon package, and it is the route to take if you want the
+        reconstruction to run somewhere other than the scanner.
+      </p>
+      <ul>
+        <li><strong>Chroot on MARS</strong> is what the bundle ships configured for. Merge the
+          <code>Ice</code> folder into <code>MriCustomer</code> as <code>INSTALL_FIRE.txt</code>
+          describes; <code>start_chroot=true</code> is already set, so there is nothing to configure.</li>
+        <li><strong>Docker on another machine</strong> is the option when the reconstruction needs more
+          memory than MARS has. Run the container on the scanner-internal network or through the SSH
+          tunnel FIRE opens, set <code>start_chroot=false</code>, and point the ini file's
+          <code>hostname</code> and <code>port</code> at it.</li>
+      </ul>
+      <p>
+        The container serves on port <code>9002</code>, the same as the upstream
+        <code>kspacekelvin/fire-python</code> server:
+      </p>
+      <div class="code">docker pull ghcr.io/neurodesk/qsmxt_9.19.1:20260914
+
+docker run --rm -it -p 9002:9002 -v /tmp/share:/tmp/share \
+  ghcr.io/neurodesk/qsmxt_9.19.1:20260914 \
+  /bin/bash -c '/usr/sbin/ldconfig; exec python3 /opt/code/python-ismrmrd-server/main.py \
+    -v -H=0.0.0.0 -p=9002 -l=/tmp/python-ismrmrd-server.log'</div>
+      <p>
+        Full configuration — ini files for both the direct and tunnelled cases, and the detached
+        long-lived variant — is in
+        <a href="https://github.com/neurodesk/openrecon/issues/292">neurodesk/openrecon#292</a>.
+      </p>
+    </section>
+
+    <!-- ───────────────────────── links ───────────────────────── -->
+    <section class="qsm-section" id="more">
+      <h2>Where to go next</h2>
+      <div class="links">
+        <a href="https://github.com/neurodesk/openrecon/tree/main/recipes/qsmxt">
+          The build recipe
+          <span>neurodesk/openrecon — what produces the package</span>
+        </a>
+        <a href="https://github.com/neurodesk/neurocontainers/tree/main/recipes/qsmxt">
+          The container recipe
+          <span>neurodesk/neurocontainers — what goes inside it</span>
+        </a>
+        <a href="https://github.com/neurodesk/neurocontainers/blob/main/recipes/qsmxt/OpenReconREADME.md">
+          Package README
+          <span>The operator-facing guide that ships with the app</span>
+        </a>
+        <a href="https://github.com/neurodesk/neurocontainers/blob/main/recipes/qsmxt/OpenReconTechnicalReference.md">
+          Technical reference
+          <span>Implementation details and benchmark results</span>
+        </a>
+        <a href="https://github.com/neurodesk/openrecon/issues/292">
+          Install notes
+          <span>Per-scanner install steps and FIRE configuration</span>
+        </a>
+        <a href="https://github.com/orgs/neurodesk/discussions">
+          Ask a question
+          <span>Neurodesk discussions — or open a neurocontainers issue for bugs</span>
+        </a>
+      </div>
+
+      <h3>Citation</h3>
+      <p style="font-size:.93rem">
+        Stewart, Ashley Wilton, Simon Daniel Robinson, Kieran O'Brien, et al. “QSMxT: Robust Masking
+        and Artifact Reduction for Quantitative Susceptibility Mapping.” <em>Magnetic Resonance in
+        Medicine</em> 87, no. 3 (2022): 1289–300.
+        <a href="https://doi.org/10.1002/mrm.29048">https://doi.org/10.1002/mrm.29048</a>
+      </p>
+    </section>
+  </main>
+
+  <footer class="qsm-footer qsm-wrap">
+    <div class="foot-row">
+      <span>QSMxT Recon · part of <a href="/">The QSMxT Ecosystem</a> · research use only</span>
+      <span>
+        <a href="https://astewartau.github.io/QSM.rs/">QSM.rs</a> ·
+        <a href="https://qsmxt.github.io/QSMxT/">QSMxT</a> ·
+        <a href="https://qsmbly.neurodesk.org/">QSMbly</a> ·
+        <a href="https://qsmxt.github.io/QSM-CI/">QSM-CI</a> ·
+        <a href="https://www.neurodesk.org/">Neurodesk</a>
+      </span>
+    </div>
+  </footer>
+  <script>
+    // native <details> stays open until toggled; close it like a real menu
+    (function () {
+      var menu = document.querySelector(".route-menu");
+      if (!menu) return;
+      document.addEventListener("click", function (e) {
+        if (menu.open && !menu.contains(e.target)) menu.open = false;
+      });
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape" && menu.open) { menu.open = false; menu.querySelector("summary").focus(); }
+      });
+    })();
+  </script>
+</body>
+</html>
