@@ -20,6 +20,17 @@
     })();
   </script>
   <style>
+    /* hero: text left, the prism right */
+    .hero-grid { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2.5rem; align-items: center; }
+    .hero-text { min-width: 0; }
+    .hero-art { width: clamp(280px, 31vw, 400px); }   /* ≤400px keeps the headline on one line */
+    .hero-art img, .hero-art svg { width: 100%; height: auto; display: block; }
+    /* soft oval mask: the raster's crop edges dissolve into the hero background */
+    .hero-art picture { display: block;
+      -webkit-mask-image: radial-gradient(ellipse 60% 66% at 50% 50%, #000 52%, transparent 100%);
+              mask-image: radial-gradient(ellipse 60% 66% at 50% 50%, #000 52%, transparent 100%); }
+    @media (max-width: 880px) { .hero-art { display: none; } }
+
     :root {
       /* the hub is multi-accent: rainbow headline, per-tool card accents */
       --qsm-accent: #a855f7;
@@ -73,7 +84,8 @@
   </nav>
 
   <header class="qsm-hero">
-    <div class="qsm-hero__inner">
+    <div class="qsm-hero__inner hero-grid">
+      <div class="hero-text">
       <h1 class="qsm-title">The <span class="grad">QSMxT</span> Ecosystem</h1>
       <p class="qsm-lede">
         Turn MRI phase into susceptibility maps: reconstruct in your browser with
@@ -85,6 +97,16 @@
         40+ algorithms, and <a class="t-ci" href="https://qsmxt.github.io/QSM-CI/">QSM-CI</a> shows
         you how those methods and others actually perform. All free and open source.
       </p>
+      </div>
+
+      <!-- the prism: one beam of phase in, five rays out in the headline's colours.
+           Cropped from a generated render; a mask fades its edges into the hero. -->
+      <div class="hero-art" aria-hidden="true">
+        <picture>
+          <source srcset="img/hero-prism.webp" type="image/webp">
+          <img src="img/hero-prism.png" alt="" width="880" height="571" decoding="async">
+        </picture>
+      </div>
     </div>
   </header>
 
